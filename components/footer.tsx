@@ -1,0 +1,134 @@
+import Link from "next/link"
+import { Building2, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+
+export function Footer() {
+  const quickLinks = [
+    { name: "About Us", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Media & News", href: "/news" },
+    { name: "Vacancy", href: "/vacancy" },
+    { name: "Contact Us", href: "/contact" },
+  ]
+
+  const services = [
+    { name: "Business Financing", href: "/services#business" },
+    { name: "Home Financing", href: "/services#home" },
+    { name: "Personal Banking", href: "/services#personal" },
+    { name: "Investment Services", href: "/services#investment" },
+    { name: "Zakat Calculator", href: "/services#zakat" },
+  ]
+
+  const socialLinks = [
+    { name: "Facebook", icon: Facebook, href: "#" },
+    { name: "Twitter", icon: Twitter, href: "#" },
+    { name: "Instagram", icon: Instagram, href: "#" },
+    { name: "LinkedIn", icon: Linkedin, href: "#" },
+  ]
+
+  return (
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div className="space-y-6">
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold">Rammis Bank</span>
+                <span className="text-sm text-emerald-400">Islamic Banking</span>
+              </div>
+            </Link>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              Ethiopia's trusted Islamic bank, providing Sharia-compliant financial solutions that align with your
+              values and support your financial goals.
+            </p>
+            <div className="flex space-x-4">
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <Link
+                    key={social.name}
+                    href={social.href}
+                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors"
+                  >
+                    <Icon className="w-5 h-5" />
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Our Services</h3>
+            <ul className="space-y-3">
+              {services.map((service) => (
+                <li key={service.name}>
+                  <Link href={service.href} className="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <MapPin className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-gray-300">
+                  <p>Bole Road, Addis Ababa</p>
+                  <p>Ethiopia</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Phone className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <span className="text-sm text-gray-300">+251 11 123 4567</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <span className="text-sm text-gray-300">info@rammisbank.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-gray-400">© 2024 Rammis Bank. All rights reserved.</p>
+            <div className="flex space-x-6 text-sm text-gray-400">
+              <Link href="/privacy" className="hover:text-emerald-400 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-emerald-400 transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/compliance" className="hover:text-emerald-400 transition-colors">
+                Sharia Compliance
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
