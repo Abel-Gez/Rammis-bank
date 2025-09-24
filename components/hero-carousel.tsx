@@ -89,22 +89,20 @@ export function HeroCarousel() {
         {slides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-              index === currentSlide
+            className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === currentSlide
                 ? "opacity-100 translate-x-0"
                 : index < currentSlide
                   ? "opacity-0 -translate-x-full"
                   : "opacity-0 translate-x-full"
-            }`}
+              }`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
               <div className="grid lg:grid-cols-2 gap-12 items-center h-full py-20">
                 {/* Content */}
                 <div className="space-y-8 z-10">
                   <div
-                    className={`space-y-4 transition-all duration-1000 delay-300 ${
-                      index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                    className={`space-y-4 transition-all duration-1000 delay-300 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      }`}
                   >
                     <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight text-balance">
                       {slide.headline.split(" ").map((word, i) => (
@@ -118,9 +116,8 @@ export function HeroCarousel() {
 
                   {/* Trust Indicators */}
                   <div
-                    className={`flex items-center space-x-8 transition-all duration-1000 delay-500 ${
-                      index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                    className={`flex items-center space-x-8 transition-all duration-1000 delay-500 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      }`}
                   >
                     <div className="flex items-center space-x-2">
                       <Shield className="w-5 h-5 text-blue-900" />
@@ -138,9 +135,8 @@ export function HeroCarousel() {
 
                   {/* CTA Buttons */}
                   <div
-                    className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-700 ${
-                      index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    }`}
+                    className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-700 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      }`}
                   >
                     <Button
                       size="lg"
@@ -166,9 +162,8 @@ export function HeroCarousel() {
                 {/* Hero Image */}
                 <div className="relative">
                   <div
-                    className={`aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-slate-100 shadow-2xl transition-all duration-1000 ${
-                      index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-95"
-                    }`}
+                    className={`aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-slate-100 shadow-2xl transition-all duration-1000 ${index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-95"
+                      }`}
                   >
                     <img
                       src={slide.image || "/placeholder.svg"}
@@ -179,17 +174,15 @@ export function HeroCarousel() {
 
                   {/* Floating Stats */}
                   <div
-                    className={`absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6 border border-border transition-all duration-1000 delay-800 ${
-                      index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                    }`}
+                    className={`absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6 border border-border transition-all duration-1000 delay-800 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                      }`}
                   >
                     <div className="text-2xl font-bold text-rammisBlue">300K+</div>
                     <div className="text-sm text-gray-600">Happy Customers</div>
                   </div>
                   <div
-                    className={`absolute -top-6 -right-6 bg-white rounded-xl shadow-lg p-6 border border-border transition-all duration-1000 delay-900 ${
-                      index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                    }`}
+                    className={`absolute -top-6 -right-6 bg-white rounded-xl shadow-lg p-6 border border-border transition-all duration-1000 delay-900 ${index === currentSlide ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                      }`}
                   >
                     <div className="text-2xl font-bold text-rammisBlue">100%</div>
                     <div className="text-sm text-gray-600">Sharia Compliant</div>
@@ -223,9 +216,8 @@ export function HeroCarousel() {
               key={index}
               onClick={() => goToSlide(index)}
               disabled={isAnimating}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? "bg-blue-900 scale-125" : "bg-blue-200 hover:bg-blue-400"
-              }`}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-blue-900 scale-125" : "bg-blue-200 hover:bg-blue-400"
+                }`}
             />
           ))}
         </div>

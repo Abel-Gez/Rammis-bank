@@ -19,17 +19,17 @@ export function Header() {
   ]
 
   return (
-    <header className="bg-gray-400 shadow-sm border-b border-border sticky top-0 z-50">
-      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisBlue animate-pulse"></div>
+    <header className="bg-rammisBlue/90 shadow-sm border-b border-border sticky top-0 z-50">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-white via-gray-50 to-black animate-pulse"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center">
-            <div className="relative w-46 h-16 flex items-center justify-center">
+            <div className="bg-white/90 relative w-42 h-14 flex items-center justify-center rounded-xl  shadow-md">
               <Image
-                src="/logo.png"          // Your full logo PNG
+                src="/logo.png"
                 alt="Rammis Bank Logo"
-                width={210}              // Maintains resolution
-                height={80}
+                width={180}               // Maintains logo resolution
+                height={70}
                 className="object-contain drop-shadow-sm" // subtle shadow to make logo visible over blue
                 priority
               />
@@ -37,7 +37,7 @@ export function Header() {
           </Link>
 
 
-         {/* <Link href="/" className="flex items-center">
+          {/* <Link href="/" className="flex items-center">
             <div className="relative w-44 h-16 bg-white/10 border border-gray-300/50 rounded-lg p-1 flex items-center justify-center shadow-md shadow-glow">
               <Image
                 src="/logo.png"      // Put the full logo file in /public/
@@ -50,8 +50,7 @@ export function Header() {
             </div>
           </Link> */}
 
-         
-         
+
           {/* <Link href="/" className="flex items-center space-x-3">
             <div className="relative w-12 h-12">
               <Image src="/rammis-bank-logo.jpg" alt="Rammis Bank Logo" fill className="object-contain" priority />
@@ -72,20 +71,28 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-black font-bold tracking-wide 
-            hover:text-white hover:underline hover:underline-offset-4 
-            transition-colors duration-300"
+                className="
+        relative  rounded-md text-white font-semibold tracking-wide
+        transition-all duration-300
+        hover:text-white
+        hover:bg-gray-200/20 hover:shadow-md hover:shadow-gray-400/30
+        after:content-[''] after:absolute after:left-0 after:bottom-0 
+        after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-blue-400 after:via-blue-200 after:to-blue-400 
+        hover:after:w-full after:transition-all after:duration-300
+      "
               >
                 {item.name}
               </Link>
             ))}
           </nav>
 
+
+
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="border-blue-600 hover:bg-white bg-gray-300" asChild>
+            <Button variant="outline" className="bg-gray-300 border-blue-600 text-blue-950 hover:bg-gray-800 hover:text-white " asChild>
               <Link href="/register">Register</Link>
             </Button>
-            <Button className="bg-blue-900 hover:bg-blue-600 text-white" asChild>
+            <Button className="bg-gray-300 text-blue-950 hover:bg-gray-800 hover:text-white" asChild>
               <Link href="/login">Login</Link>
             </Button>
           </div>
@@ -126,7 +133,7 @@ export function Header() {
           </div>
         )}
       </div>
-       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisBlue animate-pulse"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-white via-gray-50 to-black animate-pulse"></div>
     </header>
   )
 }

@@ -19,16 +19,16 @@ export function Header() {
   ]
 
   return (
-    <header className="bg-rammisBlue/90 shadow-sm border-b border-border sticky top-0 z-50">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisBlue animate-pulse"></div>
+    <header className="bg-gray-400 shadow-sm border-b border-border sticky top-0 z-50">
+      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisBlue animate-pulse"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center">
-            <div className="bg-white/90 relative w-46 h-16 flex items-center justify-center">
+            <div className="relative w-46 h-16 flex items-center justify-center">
               <Image
                 src="/logo.png"          // Your full logo PNG
                 alt="Rammis Bank Logo"
-                width={200}              // Maintains resolution
+                width={210}              // Maintains resolution
                 height={80}
                 className="object-contain drop-shadow-sm" // subtle shadow to make logo visible over blue
                 priority
@@ -72,10 +72,9 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-white font-semibold tracking-wide 
+                className="text-black font-bold tracking-wide 
             hover:text-white hover:underline hover:underline-offset-4 
             transition-colors duration-300"
-
               >
                 {item.name}
               </Link>
@@ -83,7 +82,7 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="border-blue-600 text-white hover:bg-blue-100 bg-gray-500" asChild>
+            <Button variant="outline" className="border-blue-600 hover:bg-white bg-gray-300" asChild>
               <Link href="/register">Register</Link>
             </Button>
             <Button className="bg-blue-900 hover:bg-blue-600 text-white" asChild>

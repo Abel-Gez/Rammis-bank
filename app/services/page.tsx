@@ -3,11 +3,32 @@ import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Building2, CreditCard, Home, TrendingUp, Calculator, Banknote, ArrowRight, CheckCircle } from "lucide-react"
+import { Building2, CreditCard, Home, TrendingUp, Calculator, Banknote, ArrowRight, CheckCircle, Building2Icon } from "lucide-react"
 import Link from "next/link"
 
 export default function ServicesPage() {
   const services = [
+    {
+      id: "wadia",
+      icon: Building2Icon,
+      title: "WADIA BANKING",
+      description: "Comprehensive Islamic financing solutions for your business growth and expansion needs.",
+      features: [
+        "Murabaha Trade Financing",
+        "Musharaka Partnership Financing",
+        "Equipment Purchase Financing",
+        "Working Capital Solutions",
+        "Import/Export Financing",
+        "Business Expansion Loans",
+      ],
+      benefits: [
+        "Sharia-compliant financing structures",
+        "Competitive profit rates",
+        "Flexible repayment terms",
+        "Quick approval process",
+        "Dedicated relationship managers",
+      ],
+    },
     {
       id: "business",
       icon: Building2,
@@ -141,16 +162,16 @@ export default function ServicesPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-emerald-50 to-teal-50 py-20">
+        <section className="bg-gradient-to-br from-gray-400 to-teal-50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-6">
-              <Badge className="bg-emerald-100 text-emerald-800 px-4 py-2">Our Services</Badge>
+              <Badge className="bg-rammisBlue text-white px-4 py-2">Our Services</Badge>
               <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 text-balance">
-                Comprehensive Islamic Banking Solutions
+                Comprehensive Banking Solutions
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto text-pretty">
                 Discover our full range of Sharia-compliant financial products and services designed to meet your
-                personal and business needs while adhering to Islamic principles.
+                personal and business needs while adhering to principles.
               </p>
             </div>
           </div>
@@ -171,8 +192,8 @@ export default function ServicesPage() {
                     <div className={index % 2 === 1 ? "lg:col-start-2" : ""}>
                       <div className="space-y-6">
                         <div className="flex items-center space-x-4">
-                          <div className="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center">
-                            <Icon className="w-8 h-8 text-emerald-600" />
+                          <div className="w-16 h-16 bg-rammisLightBlue rounded-xl flex items-center justify-center">
+                            <Icon className="w-8 h-8 text-white" />
                           </div>
                           <div>
                             <h2 className="text-3xl font-bold text-gray-900">{service.title}</h2>
@@ -189,7 +210,7 @@ export default function ServicesPage() {
                               <ul className="space-y-2">
                                 {service.features.map((feature, idx) => (
                                   <li key={idx} className="flex items-center text-sm">
-                                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-3 flex-shrink-0" />
+                                    <CheckCircle className="w-4 h-4 text-rammisLightBlue mr-3 flex-shrink-0" />
                                     {feature}
                                   </li>
                                 ))}
@@ -205,7 +226,7 @@ export default function ServicesPage() {
                               <ul className="space-y-2">
                                 {service.benefits.map((benefit, idx) => (
                                   <li key={idx} className="flex items-center text-sm">
-                                    <CheckCircle className="w-4 h-4 text-emerald-600 mr-3 flex-shrink-0" />
+                                    <CheckCircle className="w-4 h-4 text-rammisLightBlue mr-3 flex-shrink-0" />
                                     {benefit}
                                   </li>
                                 ))}
@@ -215,14 +236,14 @@ export default function ServicesPage() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                          <Button className="bg-emerald-600 hover:bg-emerald-700" asChild>
-                            <Link href="/customer-registration">
+                          <Button className="bg-rammisLightBlue hover:bg-rammisBlue" asChild>
+                            <Link href="/customer-registration" className="text-white">
                               Apply Now
                               <ArrowRight className="w-4 h-4 ml-2" />
                             </Link>
                           </Button>
                           <Button variant="outline" asChild>
-                            <Link href="/contact">Learn More</Link>
+                            <Link href="/contact" className="border-border hover:bg-rammisBlue">Learn More</Link>
                           </Button>
                         </div>
                       </div>
@@ -245,11 +266,11 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-emerald-600">
+        <section className="py-20 bg-gradient-to-br from-gray-400 to-teal-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="space-y-6">
-              <h2 className="text-3xl lg:text-4xl font-bold text-white">Ready to Get Started?</h2>
-              <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 ">Ready to Get Started?</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto text-pretty">
                 Join thousands of satisfied customers who trust Rammis Bank for their Islamic banking needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -262,7 +283,7 @@ export default function ServicesPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-emerald-600 bg-transparent"
+                  className="text-white hover:bg-rammisBlue hover:text-white bg-rammisLightBlue"
                   asChild
                 >
                   <Link href="/contact">Contact Us</Link>

@@ -6,10 +6,10 @@ import Link from "next/link"
 export function Services() {
   const services = [
     {
-      id: 1,
+      id: "bussiness",
       title: "WADIA BANKING",
       description: "We provide secure financing, cash management, and tailored services to help your company grow while staying true to Islamic principles",
-      image: "/Corporate-banking.png",
+      image: "/corporate-banking.png",
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ export function Services() {
       image: "/retail-banking.png",
     },
     {
-      id: 1,
+      id: 4,
       title: "Business Financing",
       description: "Murabaha and Musharaka financing solutions for your business growth",
       image: "/business-financing.jpg",
@@ -88,10 +88,10 @@ export function Services() {
               </CardHeader>
               <CardContent>
                 <Button variant="ghost" className="w-full group-hover:bg-rammisLightBlue" asChild>
-                  <Link href={`/services/${service.id}`}>
+                  <a href={`/services#${service.id}`}>
                     Learn More
                     <ArrowRight className="w-4 h-4 ml-2" />
-                  </Link>
+                  </a>
                 </Button>
               </CardContent>
             </Card>
