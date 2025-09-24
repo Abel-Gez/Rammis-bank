@@ -10,13 +10,31 @@ export function NewsSection() {
       id: 1,
       title: "Rammis Bank Launches New Mobile Banking App",
       excerpt:
-        "Experience seamless Islamic banking with our new mobile application featuring enhanced security and user-friendly interface.",
+        "Experience seamless banking services with our new mobile application featuring enhanced security and user-friendly interface.",
       date: "2024-01-15",
       category: "Technology",
-      image: "/mobile-banking-app-interface-islamic-banking.jpg",
+      image: "/mobile-banking.jpg",
     },
     {
       id: 2,
+      title: "RETAIL BANKING",
+      excerpt:
+        "Our Retail Banking provides Sharia-compliant, interest-free financial services designed to support your everyday needs.",
+      date: "2024-01-10",
+      category: "Products",
+      image: "/retail-banking.png",
+    },
+    {
+      id: 3,
+      title: "WADIA BANKING",
+      excerpt:
+        "We provide secure financing, cash management, and tailored services to help your company grow while staying true to Islamic principles.",
+      date: "2024-01-10",
+      category: "Products",
+      image: "/corporate-banking.png",
+    },
+    {
+      id: 4,
       title: "Expansion of Home Financing Products",
       excerpt:
         "We are pleased to announce expanded Diminishing Musharaka home financing options with competitive rates.",
@@ -25,7 +43,7 @@ export function NewsSection() {
       image: "/ethiopian-family-in-front-of-new-home-islamic-fina.jpg",
     },
     {
-      id: 3,
+      id: 5,
       title: "Community Iftar Program 2024",
       excerpt:
         "Join us for our annual community Iftar program supporting local families during the holy month of Ramadan.",
@@ -71,13 +89,13 @@ export function NewsSection() {
                     {new Date(article.date).toLocaleDateString()}
                   </div>
                 </div>
-                <CardTitle className="text-xl group-hover:text-emerald-600 transition-colors">
+                <CardTitle className="text-xl group-hover:text-rammisLightBlue transition-colors">
                   {article.title}
                 </CardTitle>
                 <CardDescription className="text-gray-600">{article.excerpt}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="ghost" className="w-full group-hover:bg-emerald-50" asChild>
+                <Button variant="ghost" className="w-full group-hover:bg-rammisLightBlue" asChild>
                   <Link href={`/news/${article.id}`}>
                     Read More
                     <ArrowRight className="w-4 h-4 ml-2" />

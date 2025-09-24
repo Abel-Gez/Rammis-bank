@@ -38,9 +38,9 @@ export function CurrencyExchange() {
       console.error("Failed to fetch rates:", error)
       // Fallback to mock data if API fails
       setRates({
-        USD: { rate: 56.85, change: 0.45, lastUpdated: new Date().toISOString() },
-        EUR: { rate: 61.23, change: -0.23, lastUpdated: new Date().toISOString() },
-        GBP: { rate: 71.45, change: 0.78, lastUpdated: new Date().toISOString() },
+        USD: { rate: 143.85, change: 0.45, lastUpdated: new Date().toISOString() },
+        EUR: { rate: 171.23, change: -0.23, lastUpdated: new Date().toISOString() },
+        GBP: { rate: 181.45, change: 0.78, lastUpdated: new Date().toISOString() },
       })
       setLastUpdated(new Date())
     } finally {
@@ -94,7 +94,7 @@ export function CurrencyExchange() {
                       <div className="text-3xl font-bold text-gray-900 mb-2">{rateData.rate.toFixed(2)} ETB</div>
                       <Badge
                         variant={rateData.change >= 0 ? "default" : "destructive"}
-                        className={rateData.change >= 0 ? "bg-green-100 text-green-800" : ""}
+                        className={rateData.change >= 0 ? "bg-rammisLightBlue/90 text-gray-200" : ""}
                       >
                         {rateData.change >= 0 ? (
                           <TrendingUp className="w-3 h-3 mr-1" />
@@ -121,8 +121,8 @@ export function CurrencyExchange() {
           </div>
 
           <div className="space-y-2">
-            <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
-              <Link href="/currency-exchange">View Full Exchange Service</Link>
+            <Button asChild className="bg-rammisLightBlue hover:bg-rammisBlue">
+              <Link href="/currency-exchange" className="text-white ">View Full Exchange Service</Link>
             </Button>
             <p className="text-sm text-gray-600">
               Rates are indicative and subject to change. Visit our branches for actual transaction rates.

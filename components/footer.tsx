@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image";
 import { Building2, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
 
 export function Footer() {
@@ -26,22 +27,43 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-rammisBlue text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+              <Link href="/" className="flex items-center">
+                <div className="relative w-48 h-16 bg-white/10 backdrop-blur-sm  rounded-x1  flex items-center justify-center 
+                                bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisLightBlue  /* nice deep-blue gradient */
+                                shadow-lg shadow-black/50     /* deep light glow */
+                                border border-gray-300/40      /* subtle outline */
+                                hover:scale-105 hover:shadow-white/40  transition-all duration-300
+                                outline-none 
+                                ">
+                  <Image
+                    src="/logo.png"      // or "/logo-white.png" for dark backgrounds
+                    alt="Rammis Bank Logo"
+                    width={192}
+                    height={80}                 // important — image fills parent
+                    priority             // optional — loads faster for header logos
+                    className="object-contain drop-shadow-md"
+                    sizes="192px"  
+                  />
+                </div>
+              </Link>
+
+            {/* <Link href="/" className="flex items-center space-x-2"> */}
+              {/* <div className="w-10 h-10 bg-rammisBlue rounded-lg flex items-center justify-center">
                 <Building2 className="w-6 h-6 text-white" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold">Rammis Bank</span>
-                <span className="text-sm text-emerald-400">Islamic Banking</span>
-              </div>
-            </Link>
+                <span className="text-sm text-gray-300">Flow to the highest!</span>
+              </div> */}
+            {/* </Link> */}
+
             <p className="text-gray-300 text-sm leading-relaxed">
-              Ethiopia's trusted Islamic bank, providing Sharia-compliant financial solutions that align with your
+              Ethiopia's trusted interest-free bank, providing Sharia-compliant financial solutions that align with your
               values and support your financial goals.
             </p>
             <div className="flex space-x-4">
@@ -51,7 +73,7 @@ export function Footer() {
                   <Link
                     key={social.name}
                     href={social.href}
-                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors"
+                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-rammisLightBlue transition-colors"
                   >
                     <Icon className="w-5 h-5" />
                   </Link>
@@ -66,7 +88,7 @@ export function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+                  <Link href={link.href} className="text-gray-300 hover:text-rammisLightBlue transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -80,7 +102,7 @@ export function Footer() {
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
-                  <Link href={service.href} className="text-gray-300 hover:text-emerald-400 transition-colors text-sm">
+                  <Link href={service.href} className="text-gray-300 hover:text-rammisLightBlue transition-colors text-sm">
                     {service.name}
                   </Link>
                 </li>
@@ -93,18 +115,18 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-gray-100 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-gray-300">
                   <p>Bole Road, Addis Ababa</p>
                   <p>Ethiopia</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <Phone className="w-5 h-5 text-gray-100 flex-shrink-0" />
                 <span className="text-sm text-gray-300">+251 11 123 4567</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+                <Mail className="w-5 h-5 text-gray-100 flex-shrink-0" />
                 <span className="text-sm text-gray-300">info@rammisbank.com</span>
               </div>
             </div>
@@ -116,13 +138,13 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-gray-400">© 2024 Rammis Bank. All rights reserved.</p>
             <div className="flex space-x-6 text-sm text-gray-400">
-              <Link href="/privacy" className="hover:text-emerald-400 transition-colors">
+              <Link href="/privacy" className="hover:text-rammisLightBlue transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="hover:text-emerald-400 transition-colors">
+              <Link href="/terms" className="hover:text-rammisLightBlue transition-colors">
                 Terms of Service
               </Link>
-              <Link href="/compliance" className="hover:text-emerald-400 transition-colors">
+              <Link href="/compliance" className="hover:text-rammisLightBlue transition-colors">
                 Sharia Compliance
               </Link>
             </div>
