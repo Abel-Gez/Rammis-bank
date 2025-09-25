@@ -20,7 +20,7 @@ export function Header() {
 
   return (
     <header className="bg-rammisBlue/90 shadow-sm border-b border-border sticky top-0 z-50">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-white via-gray-50 to-black animate-pulse"></div>
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-black via-gray-100 to-black animate-pulse"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center">
@@ -132,7 +132,6 @@ export function Header() {
           </div>
         )}
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-white via-gray-50 to-black animate-pulse"></div>
     </header>
   )
 }

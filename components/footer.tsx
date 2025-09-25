@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image";
-import { Building2, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { Building2, Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Globe } from "lucide-react"
 
 export function Footer() {
   const quickLinks = [
@@ -12,6 +12,7 @@ export function Footer() {
   ]
 
   const services = [
+    { name: "Wadia Banking", href: "/services#wadia" },
     { name: "Business Financing", href: "/services#business" },
     { name: "Home Financing", href: "/services#home" },
     { name: "Personal Banking", href: "/services#personal" },
@@ -32,28 +33,28 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
-              <Link href="/" className="flex items-center">
-                <div className="relative w-48 h-16 bg-white/10 backdrop-blur-sm  rounded-x1  flex items-center justify-center 
+            <Link href="/" className="flex items-center">
+              <div className="relative w-48 h-16 bg-white/10 backdrop-blur-sm  rounded-x1  flex items-center justify-center 
                                 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisLightBlue  /* nice deep-blue gradient */
                                 shadow-lg shadow-black/50     /* deep light glow */
                                 border border-gray-300/40      /* subtle outline */
                                 hover:scale-105 hover:shadow-white/40  transition-all duration-300
                                 outline-none 
                                 ">
-                  <Image
-                    src="/logo.png"      // or "/logo-white.png" for dark backgrounds
-                    alt="Rammis Bank Logo"
-                    width={192}
-                    height={80}                 // important — image fills parent
-                    priority             // optional — loads faster for header logos
-                    className="object-contain drop-shadow-md"
-                    sizes="192px"  
-                  />
-                </div>
-              </Link>
+                <Image
+                  src="/logo.png"      // or "/logo-white.png" for dark backgrounds
+                  alt="Rammis Bank Logo"
+                  width={192}
+                  height={80}                 // important — image fills parent
+                  priority             // optional — loads faster for header logos
+                  className="object-contain drop-shadow-md"
+                  sizes="192px"
+                />
+              </div>
+            </Link>
 
             {/* <Link href="/" className="flex items-center space-x-2"> */}
-              {/* <div className="w-10 h-10 bg-rammisBlue rounded-lg flex items-center justify-center">
+            {/* <div className="w-10 h-10 bg-rammisBlue rounded-lg flex items-center justify-center">
                 <Building2 className="w-6 h-6 text-white" />
               </div>
               <div className="flex flex-col">
@@ -63,8 +64,7 @@ export function Footer() {
             {/* </Link> */}
 
             <p className="text-gray-300 text-sm leading-relaxed">
-              Ethiopia's trusted interest-free bank, providing Sharia-compliant financial solutions that align with your
-              values and support your financial goals.
+              Rammis Bank S.C a fully-fledged interest-free bank in Ethioia, was established on October 04, 2022, with a vision to become the hub of interest-free banking in East Africa.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => {
@@ -117,17 +117,24 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-gray-100 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-gray-300">
-                  <p>Bole Road, Addis Ababa</p>
-                  <p>Ethiopia</p>
+                  <p>Bole Main Road, Flamingo Area, Rammis Tower</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gray-100 flex-shrink-0" />
-                <span className="text-sm text-gray-300">+251 11 123 4567</span>
+                <span className="text-sm text-gray-300">011-562-1202</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-gray-100 flex-shrink-0" />
                 <span className="text-sm text-gray-300">info@rammisbank.com</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Globe className="w-5 h-5 text-gray-100 flex-shrink-0" />
+                <span className="text-sm text-gray-300 hover:underline">www.rammisbank.et</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Phone className="w-5 h-5 text-gray-100 flex-shrink-0" />
+                <span className="text-sm text-gray-300">Dial *678# for USSD</span>
               </div>
             </div>
           </div>
