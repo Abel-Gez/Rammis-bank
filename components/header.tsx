@@ -72,21 +72,20 @@ export function Header() {
                 key={item.name}
                 href={item.href}
                 className="
-        relative  rounded-md text-white font-semibold tracking-wide
-        transition-all duration-300
-        hover:text-white
-        hover:bg-gray-200/20 hover:shadow-md hover:shadow-gray-400/30
-        after:content-[''] after:absolute after:left-0 after:bottom-0 
-        after:w-0 after:h-0.5 after:bg-gradient-to-r after:from-blue-400 after:via-blue-200 after:to-blue-400 
-        hover:after:w-full after:transition-all after:duration-300
-      "
+                  relative rounded-md text-white font-semibold tracking-wide
+                  transition-all duration-300
+                  hover:text-gray-200
+                  hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]
+                  after:content-[''] after:absolute after:left-0 after:bottom-0
+                  after:w-0 after:h-0.5 after:bg-gradient-to-r
+                  after:from-black after:via-blue-200 after:to-black
+                  hover:after:w-full after:transition-all after:duration-300
+                "
               >
                 {item.name}
               </Link>
             ))}
           </nav>
-
-
 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="outline" className="bg-gray-300 border-blue-600 text-blue-950 hover:bg-gray-800 hover:text-white " asChild>
