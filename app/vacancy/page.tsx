@@ -172,12 +172,12 @@ export default function VacancyPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-emerald-50 to-teal-50 py-20">
+        <section className="bg-gradient-to-br from-gray-400 to-teal-50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-6">
-              <Badge className="bg-emerald-100 text-emerald-800 px-4 py-2">Career Opportunities</Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 text-balance">Join Our Growing Team</h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto text-pretty">
+              <Badge className="bg-rammisBlue text-white px-4 py-2">Career Opportunities</Badge>
+              <h1 className="text-4xl lg:text-6xl font-bold text-rammisBlue text-balance">Join Our Growing Team</h1>
+              <p className="text-xl text-rammisBlue/80 max-w-3xl mx-auto text-pretty">
                 Build your career with Ethiopia's leading Islamic bank. We offer exciting opportunities for
                 professionals who share our commitment to ethical banking and community service.
               </p>
@@ -186,17 +186,17 @@ export default function VacancyPage() {
         </section>
 
         {/* Search and Filter */}
-        <section className="py-12 bg-white">
+        <section className="py-12 bg-white border-t border-b border-rammisBlue/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <Input placeholder="Search job positions..." className="pl-10 h-12" />
+                  <Input placeholder="Search job positions..." className="pl-10 h-12 border-rammisBlue/20 focus-visible:ring-rammisBlue/50" />
                 </div>
               </div>
               <Select defaultValue="all-departments">
-                <SelectTrigger className="w-full md:w-48 h-12">
+                <SelectTrigger className="w-full md:w-48 h-12 border-rammisBlue/20 focus:ring-rammisBlue/50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -209,7 +209,7 @@ export default function VacancyPage() {
                 </SelectContent>
               </Select>
               <Select defaultValue="all-locations">
-                <SelectTrigger className="w-full md:w-48 h-12">
+                <SelectTrigger className="w-full md:w-48 h-12 border-rammisBlue/20 focus:ring-rammisBlue/50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -224,7 +224,7 @@ export default function VacancyPage() {
         </section>
 
         {/* Job Listings */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-rammisBlue/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="space-y-8">
               {jobOpenings.map((job) => (
@@ -233,10 +233,10 @@ export default function VacancyPage() {
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                       <div className="space-y-2">
                         <div className="flex items-center space-x-3">
-                          <CardTitle className="text-2xl text-gray-900">{job.title}</CardTitle>
-                          <Badge className="bg-emerald-100 text-emerald-800">{job.status}</Badge>
+                          <CardTitle className="text-2xl text-rammisBlue">{job.title}</CardTitle>
+                          <Badge className="bg-rammisLightBlue/20 text-rammisBlue border-rammisLightBlue/30">{job.type}</Badge>
                         </div>
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-rammisBlue/80">
                           <div className="flex items-center">
                             <Briefcase className="w-4 h-4 mr-1" />
                             {job.department}
@@ -246,28 +246,22 @@ export default function VacancyPage() {
                             {job.location}
                           </div>
                           <div className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {job.type}
-                          </div>
-                          <div className="flex items-center">
-                            <GraduationCap className="w-4 h-4 mr-1" />
-                            {job.experience}
-                          </div>
-                          <div className="flex items-center">
                             <DollarSign className="w-4 h-4 mr-1" />
                             {job.salary}
                           </div>
+                          <div className="flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            {job.deadline}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col items-end space-y-2">
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Users className="w-4 h-4 mr-1" />
-                          {job.applications} applications
-                        </div>
-                        <div className="flex items-center text-sm text-gray-500">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          Deadline: {new Date(job.deadline).toLocaleDateString()}
-                        </div>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <Badge variant="outline" className="text-rammisBlue border-rammisBlue/30">
+                          {job.applications} Applications
+                        </Badge>
+                        <Badge variant={job.status === 'active' ? 'default' : 'secondary'} className="ml-2">
+                          {job.status === 'active' ? 'Active' : 'Closed'}
+                        </Badge>
                       </div>
                     </div>
                   </CardHeader>
@@ -275,13 +269,12 @@ export default function VacancyPage() {
                     <div className="space-y-6">
                       <CardDescription className="text-base leading-relaxed">{job.description}</CardDescription>
 
-                      <div className="grid md:grid-cols-2 gap-6">
+                      <div className="bg-white rounded-2xl p-8 shadow-lg border border-rammisBlue/10">
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Requirements</h4>
+                          <h4 className="font-semibold text-rammisBlue mb-3">Requirements</h4>
                           <ul className="space-y-2">
                             {job.requirements.map((req, index) => (
-                              <li key={index} className="flex items-start text-sm text-gray-600">
-                                <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full mt-2 mr-3 flex-shrink-0" />
+                              <li key={index} className="flex items-start text-sm text-rammisBlue/80">
                                 {req}
                               </li>
                             ))}
@@ -289,11 +282,11 @@ export default function VacancyPage() {
                         </div>
 
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Responsibilities</h4>
+                          <h4 className="font-semibold text-rammisBlue mb-3">Responsibilities</h4>
                           <ul className="space-y-2">
                             {job.responsibilities.map((resp, index) => (
-                              <li key={index} className="flex items-start text-sm text-gray-600">
-                                <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full mt-2 mr-3 flex-shrink-0" />
+                              <li key={index} className="flex items-start text-sm text-rammisBlue/80">
+                                <div className="w-1.5 h-1.5 bg-rammisBlue rounded-full mt-2 mr-3 flex-shrink-0" />
                                 {resp}
                               </li>
                             ))}
@@ -302,7 +295,7 @@ export default function VacancyPage() {
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200">
-                        <Button className="bg-emerald-600 hover:bg-emerald-700">Apply Now</Button>
+                        <Button className="bg-rammisBlue hover:bg-rammisBlue/90 text-white">Apply Now</Button>
                         <Button variant="outline">Save Job</Button>
                         <Button variant="ghost">Share</Button>
                       </div>
@@ -315,7 +308,7 @@ export default function VacancyPage() {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-white border-t border-rammisBlue/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Work With Us?</h2>
@@ -329,10 +322,10 @@ export default function VacancyPage() {
               {benefits.map((benefit, index) => (
                 <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                   <CardContent className="pt-8">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <div className="w-2 h-2 bg-emerald-600 rounded-full" />
+                    <div className="w-12 h-12 bg-rammisLightBlue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <div className="w-2 h-2 bg-rammisBlue rounded-full" />
                     </div>
-                    <p className="text-gray-700 font-medium">{benefit}</p>
+                    <p className="text-rammisBlue/90 font-medium">{benefit}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -341,11 +334,11 @@ export default function VacancyPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-emerald-600">
+        <section className="py-20 bg-gradient-to-br from-gray-400 to-teal-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="space-y-6">
-              <h2 className="text-3xl lg:text-4xl font-bold text-white">Ready to Start Your Career?</h2>
-              <p className="text-xl text-emerald-100 max-w-2xl mx-auto">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Ready to Start Your Career?</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto text-pretty">
                 Don't see a position that matches your skills? Send us your resume and we'll keep you in mind for future
                 opportunities.
               </p>
@@ -355,8 +348,8 @@ export default function VacancyPage() {
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-emerald-600 bg-transparent"
+                  variant="default"
+                  className="bg-rammisBlue hover:bg-rammisBlue/90 hover:shadow-md transition-all duration-200 text-white"
                 >
                   Contact HR
                 </Button>

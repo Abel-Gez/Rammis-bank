@@ -99,12 +99,12 @@ export default function NewsPage() {
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-emerald-50 to-teal-50 py-20">
+        <section className="bg-gradient-to-br from-gray-400 to-teal-50 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-6">
-              <Badge className="bg-emerald-100 text-emerald-800 px-4 py-2">Media & News</Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 text-balance">Latest News & Updates</h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto text-pretty">
+              <Badge className="bg-rammisBlue text-white px-4 py-2">Media & News</Badge>
+              <h1 className="text-4xl lg:text-6xl font-bold text-rammisBlue text-balance">Latest News & Updates</h1>
+              <p className="text-xl text-rammisBlue/80 max-w-3xl mx-auto text-pretty">
                 Stay informed about our latest products, services, community initiatives, and industry insights from
                 Rammis Bank.
               </p>
@@ -128,7 +128,7 @@ export default function NewsPage() {
                   </div>
                   <div className="p-8">
                     <div className="flex items-center space-x-4 mb-4">
-                      <Badge className="bg-emerald-100 text-emerald-800">{featuredNews.category}</Badge>
+                      <Badge className="bg-rammisLightBlue/20 text-rammisBlue border-rammisLightBlue/30">{featuredNews.category}</Badge>
                       <div className="flex items-center text-sm text-gray-500">
                         <Calendar className="w-4 h-4 mr-1" />
                         {new Date(featuredNews.publishDate).toLocaleDateString()}
@@ -142,7 +142,7 @@ export default function NewsPage() {
                     <p className="text-gray-600 mb-6 leading-relaxed">{featuredNews.excerpt}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">By {featuredNews.author}</span>
-                      <Button className="bg-emerald-600 hover:bg-emerald-700" asChild>
+                      <Button className="bg-rammisBlue hover:bg-rammisBlue/90 text-white" asChild>
                         <Link href={`/news/${featuredNews.id}`}>
                           Read Full Article
                           <ArrowRight className="w-4 h-4 ml-2" />
@@ -157,17 +157,17 @@ export default function NewsPage() {
         </section>
 
         {/* Search and Filter */}
-        <section className="py-8 bg-gray-50">
+        <section className="py-8 bg-rammisBlue/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <Input placeholder="Search news articles..." className="pl-10 h-12" />
+                  <Input placeholder="Search news articles..." className="pl-10 h-12 border-rammisBlue/20 focus-visible:ring-rammisBlue/50" />
                 </div>
               </div>
               <Select defaultValue="All">
-                <SelectTrigger className="w-full md:w-48 h-12">
+                <SelectTrigger className="w-full md:w-48 h-12 border-rammisBlue/20 focus:ring-rammisBlue/50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -179,7 +179,7 @@ export default function NewsPage() {
                 </SelectContent>
               </Select>
               <Select defaultValue="newest">
-                <SelectTrigger className="w-full md:w-48 h-12">
+                <SelectTrigger className="w-full md:w-48 h-12 border-rammisBlue/20 focus:ring-rammisBlue/50">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -193,7 +193,7 @@ export default function NewsPage() {
         </section>
 
         {/* News Grid */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-20 bg-rammisBlue/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {newsArticles.map((article) => (
@@ -249,16 +249,19 @@ export default function NewsPage() {
         </section>
 
         {/* Newsletter Signup */}
-        <section className="py-20 bg-emerald-600">
+        <section className="py-20 bg-gradient-to-br from-gray-400 to-teal-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="max-w-2xl mx-auto space-y-6">
-              <h2 className="text-3xl font-bold text-white">Stay Updated</h2>
-              <p className="text-xl text-emerald-100">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">Stay Updated</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto text-pretty">
                 Subscribe to our newsletter to receive the latest news and updates directly in your inbox.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <Input placeholder="Enter your email" className="bg-white border-white" />
-                <Button variant="secondary" className="bg-white text-emerald-600 hover:bg-gray-100">
+                <Button 
+                  variant="default" 
+                  className="bg-rammisBlue hover:bg-rammisBlue/90 hover:shadow-md transition-all duration-200 text-white"
+                >
                   Subscribe
                 </Button>
               </div>

@@ -94,12 +94,16 @@ export function LoginForm() {
             Remember me
           </Label>
         </div>
-        <Button variant="link" className="p-0 h-auto text-emerald-600 hover:text-emerald-700">
+        <Button variant="link" className="p-0 h-auto text-rammisBlue hover:text-rammisBlue/90">
           Forgot password?
         </Button>
       </div>
 
-      <Button type="submit" className="w-full h-12 bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
+      <Button 
+        type="submit" 
+        className="w-full h-12 bg-rammisBlue hover:bg-rammisBlue/90 hover:shadow-md transition-all duration-200 text-white" 
+        disabled={isLoading}
+      >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />

@@ -5,17 +5,17 @@ import { Building2 } from "lucide-react"
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-rammisBlue/5 to-rammisLightBlue/10 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
         {/* Logo */}
         <div className="text-center">
           <Link href="/" className="inline-flex items-center space-x-2">
-            <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-rammisBlue rounded-lg flex items-center justify-center">
               <Building2 className="w-7 h-7 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold text-emerald-800">Rammis Bank</span>
-              <span className="text-sm text-emerald-600">Islamic Banking</span>
+              <span className="text-2xl font-bold text-rammisBlue">Rammis Bank</span>
+              <span className="text-sm text-rammisLightBlue">Islamic Banking</span>
             </div>
           </Link>
         </div>
@@ -31,7 +31,7 @@ export default function LoginPage() {
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}
-                <Link href="/register" className="text-emerald-600 hover:text-emerald-700 font-medium">
+                <Link href="/register" className="text-rammisBlue hover:text-rammisBlue/90 font-medium">
                   Register here
                 </Link>
               </p>
@@ -44,11 +44,11 @@ export default function LoginPage() {
           <p className="text-sm text-gray-600">Secured with 256-bit SSL encryption</p>
           <p className="text-xs text-gray-500">
             By signing in, you agree to our{" "}
-            <Link href="/terms" className="text-emerald-600 hover:underline">
+            <Link href="/terms" className="text-rammisBlue hover:underline">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="/privacy" className="text-emerald-600 hover:underline">
+            <Link href="/privacy" className="text-rammisBlue hover:underline">
               Privacy Policy
             </Link>
           </p>

@@ -19,12 +19,12 @@ export function Header() {
   ]
 
   return (
-    <header className="bg-rammisBlue/90 shadow-sm border-b border-border sticky top-0 z-50">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-black via-gray-100 to-black animate-pulse"></div>
+    <header className="bg-rammisBlue shadow-sm border-b border-rammisBlue/20 sticky top-0 z-50">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rammisBlue via-rammisLightBlue to-rammisBlue animate-pulse"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center">
-            <div className="bg-white/90 relative w-42 h-14 flex items-center justify-center rounded-xl  shadow-md">
+            <div className="bg-white/95 relative w-42 h-14 flex items-center justify-center rounded-xl shadow-md border border-rammisBlue/10">
               <Image
                 src="/logo.png"
                 alt="Rammis Bank Logo"
@@ -74,11 +74,11 @@ export function Header() {
                 className="
                   relative rounded-md text-white font-semibold tracking-wide
                   transition-all duration-300
-                  hover:text-gray-200
+                  hover:text-rammisLightBlue
                   hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)]
                   after:content-[''] after:absolute after:left-0 after:bottom-0
                   after:w-0 after:h-0.5 after:bg-gradient-to-r
-                  after:from-black after:via-blue-200 after:to-black
+                  after:from-rammisBlue after:via-rammisLightBlue after:to-rammisBlue
                   hover:after:w-full after:transition-all after:duration-300
                 "
               >
@@ -88,10 +88,10 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="bg-gray-300 border-blue-600 text-blue-950 hover:bg-gray-800 hover:text-white " asChild>
+            <Button variant="outline" className="bg-white/90 border-rammisBlue text-rammisBlue hover:bg-rammisBlue/5 hover:text-rammisBlue/90 transition-colors" asChild>
               <Link href="/register">Register</Link>
             </Button>
-            <Button className="bg-gray-300 text-blue-950 hover:bg-gray-800 hover:text-white" asChild>
+            <Button className="bg-rammisLightBlue text-white hover:bg-rammisLightBlue/90 hover:shadow-md transition-all duration-200" asChild>
               <Link href="/login">Login</Link>
             </Button>
           </div>
@@ -110,7 +110,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-700 hover:text-blue-600 font-medium py-2"
+                  className="text-gray-700 hover:text-rammisBlue font-medium py-2 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
@@ -119,12 +119,12 @@ export function Header() {
               <div className="flex flex-col space-y-2 pt-4 border-t border-border">
                 <Button
                   variant="outline"
-                  className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+                  className="border-rammisBlue text-rammisBlue hover:bg-rammisBlue/5 bg-transparent transition-colors"
                   asChild
                 >
                   <Link href="/register">Register</Link>
                 </Button>
-                <Button className="bg-blue-900 hover:bg-blue-800 text-white" asChild>
+                <Button className="bg-rammisBlue hover:bg-rammisBlue/90 text-white transition-colors" asChild>
                   <Link href="/login">Login</Link>
                 </Button>
               </div>
