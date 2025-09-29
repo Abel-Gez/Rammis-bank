@@ -1,5 +1,7 @@
 "use client"
 
+import Image from "next/image"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -18,27 +20,30 @@ export function AdminHeader() {
       <div className="px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/admin" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
-              <Building2 className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold text-emerald-800">Rammis Bank</span>
-              <span className="text-xs text-emerald-600">Admin Panel</span>
+          <Link href="/admin" className="flex items-center">
+            <div className="bg-white relative w-42 h-14 flex items-center justify-center rounded-xl  ">
+              <Image
+                src="/logo.png"
+                alt="Rammis Bank Logo"
+                width={180}               // Maintains logo resolution
+                height={70}
+                className="object-contain " // subtle shadow to make logo visible over blue
+                priority
+              />
             </div>
           </Link>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/">
-                <Home className="w-4 h-4 mr-2" />
+              <Link href="/" className="text-black text-bold">
+                <Home className="w-4 h-4 mr-2 text-black text-bold" />
                 View Website
               </Link>
             </Button>
 
             <Button variant="ghost" size="sm" className="relative">
-              <Bell className="w-5 h-5" />
+              <Bell className="w-5 h-5 text-bold" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                 3
               </span>
@@ -49,7 +54,7 @@ export function AdminHeader() {
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src="/placeholder.svg" alt="Admin" />
-                    <AvatarFallback className="bg-emerald-100 text-emerald-700">AD</AvatarFallback>
+                    <AvatarFallback className="bg-rammisLightBlue text-black">AD</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
