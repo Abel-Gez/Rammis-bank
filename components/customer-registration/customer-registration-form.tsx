@@ -17,38 +17,24 @@ import { useToast } from "@/hooks/use-toast"
 interface FormData {
   // Personal Information
   firstName: string
-  lastName: string
   middleName: string
-  dateOfBirth: string
+  lastName: string
+  mothersName: string
   gender: string
   nationality: string
   idNumber: string
   phoneNumber: string
-  email: string
 
   // Address Information
-  region: string
-  city: string
-  subcity: string
-  woreda: string
-  kebele: string
-  houseNumber: string
+  
 
   // Employment Information
-  employmentStatus: string
-  employer: string
-  position: string
   monthlyIncome: string
 
   // Account Information
   accountType: string
-  initialDeposit: string
   branchPreference: string
 
-  // Additional Information
-  purposeOfAccount: string
-  referralSource: string
-  additionalNotes: string
 
   // Agreements
   agreeToTerms: boolean
@@ -71,41 +57,25 @@ export function CustomerRegistrationForm() {
 
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
-    lastName: "",
     middleName: "",
-    dateOfBirth: "",
+    lastName: "",
+    mothersName: "",
     gender: "",
     nationality: "Ethiopian",
     idNumber: "",
     phoneNumber: "",
-    email: "",
-    region: "",
-    city: "",
-    subcity: "",
-    woreda: "",
-    kebele: "",
-    houseNumber: "",
-    employmentStatus: "",
-    employer: "",
-    position: "",
     monthlyIncome: "",
     accountType: "",
-    initialDeposit: "",
     branchPreference: "",
-    purposeOfAccount: "",
-    referralSource: "",
-    additionalNotes: "",
     agreeToTerms: false,
     agreeToMarketing: false,
   })
 
   const steps = [
     { id: 1, title: "Personal Information", description: "Basic personal details" },
-    { id: 2, title: "Address & Contact", description: "Location and contact information" },
-    { id: 3, title: "Employment Details", description: "Work and income information" },
-    { id: 4, title: "Account Setup", description: "Account type and preferences" },
-    { id: 5, title: "Document Upload", description: "Required documents" },
-    { id: 6, title: "Review & Submit", description: "Final review" },
+    { id: 2, title: "Contact & Account Information", description: "Contact and Account information" },
+    { id: 3, title: "Upload Documents", description: "Required documents" },
+    { id: 4, title: "Review & Submit", description: "Final review" },
   ]
 
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
@@ -173,7 +143,7 @@ export function CustomerRegistrationForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name *</Label>
-                <Input
+                <Input className="bg-white"
                   id="firstName"
                   value={formData.firstName}
                   onChange={(e) => handleInputChange("firstName", e.target.value)}
@@ -181,8 +151,16 @@ export function CustomerRegistrationForm() {
                 />
               </div>
               <div className="space-y-2">
+              <Label htmlFor="middleName">Middle Name</Label>
+              <Input className="bg-white"
+                id="middleName"
+                value={formData.middleName}
+                onChange={(e) => handleInputChange("middleName", e.target.value)}
+              />
+            </div>
+              <div className="space-y-2">
                 <Label htmlFor="lastName">Last Name *</Label>
-                <Input
+                <Input className="bg-white"
                   id="lastName"
                   value={formData.lastName}
                   onChange={(e) => handleInputChange("lastName", e.target.value)}
@@ -190,34 +168,23 @@ export function CustomerRegistrationForm() {
                 />
               </div>
             </div>
-
             <div className="space-y-2">
-              <Label htmlFor="middleName">Middle Name</Label>
-              <Input
-                id="middleName"
-                value={formData.middleName}
-                onChange={(e) => handleInputChange("middleName", e.target.value)}
+              <Label htmlFor="mothersName">Mother's Name</Label>
+              <Input className="bg-white"
+                id="mothersName"
+                value={formData.mothersName}
+                onChange={(e) => handleInputChange("mothersName", e.target.value)}
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
-                <Input
-                  id="dateOfBirth"
-                  type="date"
-                  value={formData.dateOfBirth}
-                  onChange={(e) => handleInputChange("dateOfBirth", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
                 <Label htmlFor="gender">Gender *</Label>
                 <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select gender" />
+                  <SelectTrigger className="bg-white">
+                    <SelectValue className="bg-white" placeholder="Select gender" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white shadow-lg">
                     <SelectItem value="male">Male</SelectItem>
                     <SelectItem value="female">Female</SelectItem>
                   </SelectContent>
@@ -227,8 +194,8 @@ export function CustomerRegistrationForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="nationality">Nationality *</Label>
-                <Input
+                <Label htmlFor="nationality" >Nationality *</Label>
+                <Input className="bg-white"
                   id="nationality"
                   value={formData.nationality}
                   onChange={(e) => handleInputChange("nationality", e.target.value)}
@@ -236,8 +203,8 @@ export function CustomerRegistrationForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="idNumber">ID Number *</Label>
-                <Input
+                <Label htmlFor="idNumber" >ID Number *</Label>
+                <Input className="bg-white"
                   id="idNumber"
                   value={formData.idNumber}
                   onChange={(e) => handleInputChange("idNumber", e.target.value)}
@@ -255,7 +222,7 @@ export function CustomerRegistrationForm() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="phoneNumber">Phone Number *</Label>
-                <Input
+                <Input className="bg-white"
                   id="phoneNumber"
                   type="tel"
                   value={formData.phoneNumber}
@@ -264,159 +231,34 @@ export function CustomerRegistrationForm() {
                   required
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  required
-                />
-              </div>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="region">Region *</Label>
-                <Select value={formData.region} onValueChange={(value) => handleInputChange("region", value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select region" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="addis-ababa">Addis Ababa</SelectItem>
-                    <SelectItem value="oromia">Oromia</SelectItem>
-                    <SelectItem value="amhara">Amhara</SelectItem>
-                    <SelectItem value="tigray">Tigray</SelectItem>
-                    <SelectItem value="snnp">SNNP</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
-                  value={formData.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="subcity">Subcity</Label>
-                <Input
-                  id="subcity"
-                  value={formData.subcity}
-                  onChange={(e) => handleInputChange("subcity", e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="woreda">Woreda</Label>
-                <Input
-                  id="woreda"
-                  value={formData.woreda}
-                  onChange={(e) => handleInputChange("woreda", e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="kebele">Kebele</Label>
-                <Input
-                  id="kebele"
-                  value={formData.kebele}
-                  onChange={(e) => handleInputChange("kebele", e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="houseNumber">House Number</Label>
-              <Input
-                id="houseNumber"
-                value={formData.houseNumber}
-                onChange={(e) => handleInputChange("houseNumber", e.target.value)}
-              />
-            </div>
-          </div>
-        )
-
-      case 3:
-        return (
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="employmentStatus">Employment Status *</Label>
-              <Select
-                value={formData.employmentStatus}
-                onValueChange={(value) => handleInputChange("employmentStatus", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select employment status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="employed">Employed</SelectItem>
-                  <SelectItem value="self-employed">Self-Employed</SelectItem>
-                  <SelectItem value="business-owner">Business Owner</SelectItem>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="retired">Retired</SelectItem>
-                  <SelectItem value="unemployed">Unemployed</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {(formData.employmentStatus === "employed" || formData.employmentStatus === "self-employed") && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="employer">Employer/Company Name</Label>
-                  <Input
-                    id="employer"
-                    value={formData.employer}
-                    onChange={(e) => handleInputChange("employer", e.target.value)}
-                  />
+                  <Label htmlFor="monthlyIncome">Monthly Income (ETB)</Label>
+                  <Select
+                    value={formData.monthlyIncome}
+                    onValueChange={(value) => handleInputChange("monthlyIncome", value)}
+                  >
+                    <SelectTrigger className="bg-white">
+                      <SelectValue placeholder="Select income range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectContent className="bg-white shadow-lg">
+                        <SelectItem value="below-5000">Below 5,000 ETB</SelectItem>
+                        <SelectItem value="5000-15000">5,000 - 15,000 ETB</SelectItem>
+                        <SelectItem value="15000-30000">15,000 - 30,000 ETB</SelectItem>
+                        <SelectItem value="30000-50000">30,000 - 50,000 ETB</SelectItem>
+                      </SelectContent>
+                      <SelectItem value="above-50000">Above 50,000 ETB</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="position">Position/Job Title</Label>
-                  <Input
-                    id="position"
-                    value={formData.position}
-                    onChange={(e) => handleInputChange("position", e.target.value)}
-                  />
-                </div>
-              </>
-            )}
-
-            <div className="space-y-2">
-              <Label htmlFor="monthlyIncome">Monthly Income (ETB)</Label>
-              <Select
-                value={formData.monthlyIncome}
-                onValueChange={(value) => handleInputChange("monthlyIncome", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select income range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="below-5000">Below 5,000 ETB</SelectItem>
-                  <SelectItem value="5000-15000">5,000 - 15,000 ETB</SelectItem>
-                  <SelectItem value="15000-30000">15,000 - 30,000 ETB</SelectItem>
-                  <SelectItem value="30000-50000">30,000 - 50,000 ETB</SelectItem>
-                  <SelectItem value="above-50000">Above 50,000 ETB</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        )
-
-      case 4:
-        return (
-          <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="accountType">Account Type *</Label>
               <Select value={formData.accountType} onValueChange={(value) => handleInputChange("accountType", value)}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Select account type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   <SelectItem value="current">Current Account</SelectItem>
                   <SelectItem value="savings">Savings Account</SelectItem>
                   <SelectItem value="business">Business Account</SelectItem>
@@ -426,27 +268,15 @@ export function CustomerRegistrationForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="initialDeposit">Initial Deposit Amount (ETB) *</Label>
-              <Input
-                id="initialDeposit"
-                type="number"
-                value={formData.initialDeposit}
-                onChange={(e) => handleInputChange("initialDeposit", e.target.value)}
-                placeholder="Minimum 1,000 ETB"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="branchPreference">Preferred Branch</Label>
               <Select
                 value={formData.branchPreference}
                 onValueChange={(value) => handleInputChange("branchPreference", value)}
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Select preferred branch" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   <SelectItem value="bole">Bole Branch</SelectItem>
                   <SelectItem value="piazza">Piazza Branch</SelectItem>
                   <SelectItem value="merkato">Merkato Branch</SelectItem>
@@ -454,41 +284,11 @@ export function CustomerRegistrationForm() {
                 </SelectContent>
               </Select>
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="purposeOfAccount">Purpose of Account</Label>
-              <Textarea
-                id="purposeOfAccount"
-                value={formData.purposeOfAccount}
-                onChange={(e) => handleInputChange("purposeOfAccount", e.target.value)}
-                placeholder="Describe the main purpose for opening this account"
-                rows={3}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="referralSource">How did you hear about us?</Label>
-              <Select
-                value={formData.referralSource}
-                onValueChange={(value) => handleInputChange("referralSource", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select referral source" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="friend">Friend/Family</SelectItem>
-                  <SelectItem value="social-media">Social Media</SelectItem>
-                  <SelectItem value="website">Website</SelectItem>
-                  <SelectItem value="advertisement">Advertisement</SelectItem>
-                  <SelectItem value="branch">Bank Branch</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            
           </div>
         )
 
-      case 5:
+      case 3:
         return (
           <div className="space-y-6">
             <div className="text-center">
@@ -497,17 +297,17 @@ export function CustomerRegistrationForm() {
             </div>
 
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <div className="space-y-2">
+              <Upload className="bg-white w-12 h-12 text-gray-700 mx-auto mb-4" />
+              <div className="space-y-2 ">
                 <p className="text-lg font-medium">Drop files here or click to browse</p>
                 <p className="text-sm text-gray-500">Supported formats: PDF, JPG, PNG (Max 5MB each)</p>
               </div>
-              <input
+              <input 
                 type="file"
                 multiple
                 accept=".pdf,.jpg,.jpeg,.png"
                 onChange={handleFileUpload}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                className="bg-white absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
             </div>
 
@@ -525,7 +325,7 @@ export function CustomerRegistrationForm() {
                     </div>
                     <div className="flex items-center space-x-2">
                       {file.status === "uploading" && <Loader2 className="w-4 h-4 animate-spin text-blue-500" />}
-                      {file.status === "completed" && <CheckCircle className="w-4 h-4 text-green-500" />}
+                      {file.status === "completed" && <CheckCircle className="w-4 h-4 text-rammisLightBlue" />}
                       {file.status === "error" && <Badge variant="destructive">Error</Badge>}
                       <Button
                         variant="ghost"
@@ -543,7 +343,7 @@ export function CustomerRegistrationForm() {
           </div>
         )
 
-      case 6:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="text-center">
@@ -559,9 +359,6 @@ export function CustomerRegistrationForm() {
                 <CardContent className="space-y-2 text-sm">
                   <p>
                     <strong>Name:</strong> {formData.firstName} {formData.middleName} {formData.lastName}
-                  </p>
-                  <p>
-                    <strong>Date of Birth:</strong> {formData.dateOfBirth}
                   </p>
                   <p>
                     <strong>Gender:</strong> {formData.gender}
@@ -580,12 +377,6 @@ export function CustomerRegistrationForm() {
                   <p>
                     <strong>Phone:</strong> {formData.phoneNumber}
                   </p>
-                  <p>
-                    <strong>Email:</strong> {formData.email}
-                  </p>
-                  <p>
-                    <strong>Address:</strong> {formData.city}, {formData.region}
-                  </p>
                 </CardContent>
               </Card>
 
@@ -596,9 +387,6 @@ export function CustomerRegistrationForm() {
                 <CardContent className="space-y-2 text-sm">
                   <p>
                     <strong>Account Type:</strong> {formData.accountType}
-                  </p>
-                  <p>
-                    <strong>Initial Deposit:</strong> {formData.initialDeposit} ETB
                   </p>
                   <p>
                     <strong>Preferred Branch:</strong> {formData.branchPreference}
@@ -649,13 +437,13 @@ export function CustomerRegistrationForm() {
           <div key={step.id} className="flex items-center">
             <div
               className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-                currentStep >= step.id ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-600"
+                currentStep >= step.id ? "bg-rammisBlue text-white" : "bg-gray-200 text-gray-600"
               }`}
             >
               {currentStep > step.id ? <CheckCircle className="w-4 h-4" /> : step.id}
             </div>
             {index < steps.length - 1 && (
-              <div className={`w-12 h-0.5 mx-2 ${currentStep > step.id ? "bg-emerald-600" : "bg-gray-200"}`} />
+              <div className={`w-12 h-0.5 mx-2 ${currentStep > step.id ? "bg-rammisBlue" : "bg-gray-200"}`} />
             )}
           </div>
         ))}
@@ -677,14 +465,14 @@ export function CustomerRegistrationForm() {
         </Button>
 
         {currentStep < steps.length ? (
-          <Button onClick={nextStep} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button onClick={nextStep} className="bg-rammisBlue hover:bg-rammisLightBlue">
             Next Step
           </Button>
         ) : (
           <Button
             onClick={handleSubmit}
             disabled={!formData.agreeToTerms || isSubmitting}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-rammisBlue hover:bg-rammisLightBlue"
           >
             {isSubmitting ? (
               <>

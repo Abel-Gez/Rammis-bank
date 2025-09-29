@@ -88,10 +88,10 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" className="bg-white/90 border-rammisBlue text-rammisBlue hover:bg-rammisBlue/5 hover:text-rammisBlue/90 transition-colors" asChild>
-              <Link href="/register">Register</Link>
-            </Button>
-            <Button className="bg-rammisLightBlue text-white hover:bg-rammisLightBlue/90 hover:shadow-md transition-all duration-200" asChild>
+              <Button variant="outline" className="bg-white/90 border-rammisBlue text-rammisBlue transition-colors hover:bg-rammisGray" asChild>
+                <Link href="/register" className="hover:text-white">Register</Link>
+              </Button>
+            <Button className="bg-rammisLightBlue text-white hover:bg-rammisGray/40 hover:shadow-md transition-all duration-200" asChild>
               <Link href="/login">Login</Link>
             </Button>
           </div>
@@ -117,13 +117,13 @@ export function Header() {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-                <Button
-                  variant="outline"
-                  className="border-rammisBlue text-rammisBlue hover:bg-rammisBlue/5 bg-transparent transition-colors"
-                  asChild
-                >
-                  <Link href="/register">Register</Link>
-                </Button>
+                  <Button
+                    variant="outline"
+                    className="border-rammisBlue text-rammisBlue bg-white/90 transition-colors"
+                    asChild
+                  >
+                    <Link href="/register">Register</Link>
+                  </Button>
                 <Button className="bg-rammisBlue hover:bg-rammisBlue/90 text-white transition-colors" asChild>
                   <Link href="/login">Login</Link>
                 </Button>

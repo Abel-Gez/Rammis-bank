@@ -88,7 +88,7 @@ export function AdminOverview() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-600 mt-2">Manage your Islamic banking platform content and operations</p>
+        <p className="text-gray-600 mt-2">Manage your bank platform content and operations</p>
       </div>
 
       {/* Stats Grid */}
@@ -103,7 +103,7 @@ export function AdminOverview() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                <p className="text-xs text-green-600 flex items-center mt-1">
+                <p className="text-xs text-rammisLightBlue flex items-center mt-1">
                   <TrendingUp className="w-3 h-3 mr-1" />
                   {stat.change} from last month
                 </p>

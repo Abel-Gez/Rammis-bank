@@ -17,7 +17,7 @@ export default function RegisterPage() {
               <span className="text-2xl font-bold bg-gradient-to-r from-rammisBlue to-rammisLightBlue bg-clip-text text-transparent">
                 Rammis Bank
               </span>
-              <span className="text-sm text-rammisLightBlue font-medium">Islamic Banking</span>
+              <span className="text-sm text-rammisLightBlue font-medium">Interest Free Banking</span>
             </div>
           </Link>
         </div>

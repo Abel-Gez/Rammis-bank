@@ -15,7 +15,7 @@ export default function LoginPage() {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-rammisBlue">Rammis Bank</span>
-              <span className="text-sm text-rammisLightBlue">Islamic Banking</span>
+              <span className="text-sm text-rammisLightBlue">Interest Free Banking</span>
             </div>
           </Link>
         </div>
@@ -24,7 +24,7 @@ export default function LoginPage() {
         <Card className="shadow-lg border-0">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
-            <CardDescription className="text-gray-600">Sign in to access your Islamic banking account</CardDescription>
+            <CardDescription className="text-gray-600">Sign in to access admin dashboard</CardDescription>
           </CardHeader>
           <CardContent>
             <LoginForm />

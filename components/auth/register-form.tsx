@@ -17,11 +17,9 @@ export function RegisterForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    userName: "",
     email: "",
-    phone: "",
-    accountType: "",
+    role: "",
     password: "",
     confirmPassword: "",
     agreeToTerms: false,
@@ -93,38 +91,22 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="firstName" className="text-sm font-medium text-rammisBlue/90">
-            First Name <span className="text-rammisRed">*</span>
+          <Label htmlFor="userName" className="text-sm font-medium text-rammisBlue/90">
+            User Name <span className="text-rammisRed">*</span>
           </Label>
           <div className="relative">
             <Input
-              id="firstName"
-              name="firstName"
+              id="userName"
+              name="userName"
               placeholder="John"
-              value={formData.firstName}
+              value={formData.userName}
               onChange={handleInputChange}
               className="h-12 border-rammisBlue/30 focus-visible:ring-2 focus-visible:ring-rammisBlue/20 focus:border-rammisBlue/50 transition-all duration-200"
               required
             />
           </div>
         </div>
-        
-        <div className="space-y-1.5">
-          <Label htmlFor="lastName" className="text-sm font-medium text-rammisBlue/90">
-            Last Name <span className="text-rammisRed">*</span>
-          </Label>
-          <div className="relative">
-            <Input
-              id="lastName"
-              name="lastName"
-              placeholder="Doe"
-              value={formData.lastName}
-              onChange={handleInputChange}
-              className="h-12 border-rammisBlue/30 focus-visible:ring-2 focus-visible:ring-rammisBlue/20 focus:border-rammisBlue/50 transition-all duration-200"
-              required
-            />
-          </div>
-        </div>
+      
       </div>
 
       <div className="space-y-1.5">
@@ -154,64 +136,49 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="phone" className="text-sm font-medium text-rammisBlue/90">
-          Phone Number <span className="text-rammisRed">*</span>
-        </Label>
-        <div className="relative">
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            placeholder="+251 9XX XXX XXXX"
-            value={formData.phone}
-            onChange={handleInputChange}
-            className="h-12 border-rammisBlue/30 focus-visible:ring-2 focus-visible:ring-rammisBlue/20 focus:border-rammisBlue/50 transition-all duration-200"
-            required
-          />
-          <svg 
-            className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-rammisBlue/50" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-        </div>
-      </div>
-
-      <div className="space-y-1.5">
         <Label htmlFor="accountType" className="text-sm font-medium text-rammisBlue/90">
-          Account Type <span className="text-rammisRed">*</span>
+          Role <span className="text-rammisRed">*</span>
         </Label>
         <Select
-          value={formData.accountType}
+          value={formData.role}
           onValueChange={handleSelectChange}
           required
         >
           <SelectTrigger className="h-12 border-rammisBlue/30 focus-visible:ring-2 focus-visible:ring-rammisBlue/20 focus:border-rammisBlue/50 transition-all duration-200">
-            <SelectValue placeholder="Select account type" />
+            <SelectValue placeholder="Select role" />
           </SelectTrigger>
           <SelectContent className="bg-white border border-rammisBlue/20 shadow-lg">
             <SelectItem 
-              value="personal" 
+              value="human-resource" 
               className="px-4 py-2 hover:bg-rammisBlue/5 focus:bg-rammisBlue/5 text-rammisBlue/90 cursor-pointer"
             >
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-rammisBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>Personal Account</span>
+                <span>Human Resource</span>
               </div>
             </SelectItem>
             <SelectItem 
-              value="business" 
+              value="marketing" 
               className="px-4 py-2 hover:bg-rammisBlue/5 focus:bg-rammisBlue/5 text-rammisBlue/90 cursor-pointer"
             >
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-rammisBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                <span>Business Account</span>
+                <span>Marketing</span>
+              </div>
+            </SelectItem>
+            <SelectItem 
+              value="it" 
+              className="px-4 py-2 hover:bg-rammisBlue/5 focus:bg-rammisBlue/5 text-rammisBlue/90 cursor-pointer"
+            >
+              <div className="flex items-center space-x-2">
+                <svg className="w-4 h-4 text-rammisBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                <span>IT</span>
               </div>
             </SelectItem>
           </SelectContent>
