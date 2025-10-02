@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,7 +13,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
     rememberMe: false,
   })
@@ -26,15 +24,44 @@ export function LoginForm() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const response = await fetch("http://localhost:8000/api/auth/jwt/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.detail || "Invalid username or password")
+      }
+
+      const data = await response.json()
+
+      // ✅ Save tokens (consider using cookies if you want SSR-safe storage)
+      localStorage.setItem("access", data.access)
+      localStorage.setItem("refresh", data.refresh)
+
       toast({
         title: "Login Successful",
-        description: "Welcome back to Rammis Bank!",
+        description: `Welcome back, ${formData.username}!`,
       })
+
       router.push("/dashboard")
-    }, 2000)
+    } catch (error: any) {
+      toast({
+        title: "Login Failed",
+        description: error.message || "Something went wrong",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,13 +73,13 @@ export function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="username">Username</Label>
           <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-            value={formData.email}
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+            value={formData.username}
             onChange={handleInputChange}
             required
             className="h-12"
