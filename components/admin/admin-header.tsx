@@ -43,7 +43,7 @@ export function AdminHeader() {
             </Button>
 
             <Button variant="ghost" size="sm" className="relative">
-              <Bell className="w-5 h-5 text-bold" />
+              <Bell className="w-5 h-5 text-rammisBlue" />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
                 3
               </span>
@@ -51,28 +51,32 @@ export function AdminHeader() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src="/placeholder.svg" alt="Admin" />
-                    <AvatarFallback className="bg-rammisLightBlue text-black">AD</AvatarFallback>
+                    <AvatarFallback className="bg-rammisBlue text-white">AD</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end">
-                <div className="flex items-center justify-start gap-2 p-2">
+                <div className="flex items-center justify-start gap-2 p-2 bg-black/5">
                   <div className="flex flex-col space-y-1 leading-none">
                     <p className="font-medium">Admin User</p>
                     <p className="w-[200px] truncate text-sm text-muted-foreground">admin@rammisbank.com</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  Profile
+                <DropdownMenuItem asChild>
+                  <Link href="/admin/profile">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Settings
+                <DropdownMenuItem asChild>
+                  <Link href="/admin/settings">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600">

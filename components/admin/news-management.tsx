@@ -45,6 +45,7 @@ export function NewsManagement() {
     content: "",
     category: "",
     status: "draft" as const,
+    image: "" as string | undefined,
   })
 
   const [newsPosts, setNewsPosts] = useState<NewsPost[]>([
@@ -102,10 +103,11 @@ export function NewsManagement() {
       author: "Admin User",
       publishDate: new Date().toISOString().split("T")[0],
       views: 0,
+      image: newPost.image,
     }
 
     setNewsPosts([post, ...newsPosts])
-    setNewPost({ title: "", excerpt: "", content: "", category: "", status: "draft" })
+    setNewPost({ title: "", excerpt: "", content: "", category: "", status: "draft", image: "" })
     setIsAddDialogOpen(false)
 
     toast({
@@ -140,12 +142,12 @@ export function NewsManagement() {
 
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-emerald-600 hover:bg-emerald-700">
+            <Button className="bg-rammisLightBlue hover:bg-rammisBlue/90">
               <Plus className="w-4 h-4 mr-2" />
               Add News Post
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl bg-white">
             <DialogHeader>
               <DialogTitle>Create New News Post</DialogTitle>
               <DialogDescription>Add a new news post or announcement for your website.</DialogDescription>
@@ -183,6 +185,35 @@ export function NewsManagement() {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="image">Image</Label>
+                <Input
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      const reader = new FileReader()
+                      reader.onloadend = () => {
+                        setNewPost((prev) => ({
+                          ...prev,
+                          image: reader.result as string,
+                        }))
+                      }
+                      reader.readAsDataURL(file)
+                    }
+                  }}
+                />
+                {newPost.image && (
+                  <img
+                    src={newPost.image}
+                    alt="Preview"
+                    className="mt-2 max-h-40 rounded border"
+                  />
+                )}
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
@@ -193,7 +224,7 @@ export function NewsManagement() {
                     <SelectTrigger>
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="Technology">Technology</SelectItem>
                       <SelectItem value="Products">Products</SelectItem>
                       <SelectItem value="Community">Community</SelectItem>
@@ -212,7 +243,7 @@ export function NewsManagement() {
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="draft">Draft</SelectItem>
                       <SelectItem value="published">Published</SelectItem>
                     </SelectContent>
@@ -251,10 +282,10 @@ export function NewsManagement() {
             <div className="flex items-center space-x-2">
               <Filter className="w-4 h-4 text-gray-400" />
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-32 ">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white">
                   <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="published">Published</SelectItem>
                   <SelectItem value="draft">Draft</SelectItem>
@@ -299,7 +330,7 @@ export function NewsManagement() {
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="draft">Draft</SelectItem>
                       <SelectItem value="published">Published</SelectItem>
                       <SelectItem value="archived">Archived</SelectItem>

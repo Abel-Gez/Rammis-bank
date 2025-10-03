@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
+import { login } from "@/lib/auth"  
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -25,34 +26,14 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/jwt/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password,
-        }),
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.detail || "Invalid username or password")
-      }
-
-      const data = await response.json()
-
-      // ✅ Save tokens (consider using cookies if you want SSR-safe storage)
-      localStorage.setItem("access", data.access)
-      localStorage.setItem("refresh", data.refresh)
+      await login(formData.username, formData.password)
 
       toast({
         title: "Login Successful",
         description: `Welcome back, ${formData.username}!`,
       })
 
-      router.push("/dashboard")
+      router.push("/admin")
     } catch (error: any) {
       toast({
         title: "Login Failed",
