@@ -8,7 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
-import { login } from "@/lib/auth"  
+import { login } from "@/lib/auth"
+import { apiFetch } from "@/lib/api"
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -26,18 +27,30 @@ export function LoginForm() {
     setIsLoading(true)
 
     try {
+      // 1️⃣ Attempt login
       await login(formData.username, formData.password)
+
+      // 2️⃣ Verify user session (ensures cookies + token valid)
+      const res = await apiFetch("/auth/me/")
+      if (!res.ok) throw new Error("Could not verify session")
+
+      const user = await res.json()
 
       toast({
         title: "Login Successful",
-        description: `Welcome back, ${formData.username}!`,
+        description: `Welcome back, ${user.username || formData.username}!`,
       })
 
+      // 3️⃣ Navigate after success
       router.push("/admin")
     } catch (error: any) {
+      console.error("Login Error:", error)
+
       toast({
         title: "Login Failed",
-        description: error.message || "Something went wrong",
+        description:
+          error.message ||
+          "Invalid credentials or session error. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -85,7 +98,11 @@ export function LoginForm() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              {showPassword ? (
+                <EyeOff className="w-5 h-5" />
+              ) : (
+                <Eye className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
@@ -96,20 +113,28 @@ export function LoginForm() {
           <Checkbox
             id="remember"
             checked={formData.rememberMe}
-            onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, rememberMe: checked as boolean }))}
+            onCheckedChange={(checked) =>
+              setFormData((prev) => ({
+                ...prev,
+                rememberMe: checked as boolean,
+              }))
+            }
           />
           <Label htmlFor="remember" className="text-sm text-gray-600">
             Remember me
           </Label>
         </div>
-        <Button variant="link" className="p-0 h-auto text-rammisBlue hover:text-rammisBlue/90">
+        <Button
+          variant="link"
+          className="p-0 h-auto text-rammisBlue hover:text-rammisBlue/90"
+        >
           Forgot password?
         </Button>
       </div>
 
-      <Button 
-        type="submit" 
-        className="w-full h-12 bg-rammisBlue hover:bg-rammisBlue/90 hover:shadow-md transition-all duration-200 text-white" 
+      <Button
+        type="submit"
+        className="w-full h-12 bg-rammisBlue hover:bg-rammisBlue/90 hover:shadow-md transition-all duration-200 text-white"
         disabled={isLoading}
       >
         {isLoading ? (

@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -13,21 +12,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Building2, Bell, Settings, LogOut, User, Home } from "lucide-react"
+import { useUser } from "@/context/UserContext" // <-- import UserContext hook
 
 export function AdminHeader() {
+  const { user, loading } = useUser() // get current user
+
+  // fallback if loading or no user yet
+  const displayName = user?.username || "Loading..."
+  const displayEmail = user?.email || "Loading..."
+
   return (
     <header className="bg-white shadow-sm border-b border-border">
       <div className="px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/admin" className="flex items-center">
-            <div className="bg-white relative w-42 h-14 flex items-center justify-center rounded-xl  ">
+            <div className="bg-white relative w-42 h-14 flex items-center justify-center rounded-xl">
               <Image
                 src="/logo.png"
                 alt="Rammis Bank Logo"
-                width={180}               // Maintains logo resolution
+                width={180}
                 height={70}
-                className="object-contain " // subtle shadow to make logo visible over blue
+                className="object-contain"
                 priority
               />
             </div>
@@ -53,16 +59,19 @@ export function AdminHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src="/placeholder.svg" alt="Admin" />
-                    <AvatarFallback className="bg-rammisBlue text-white">AD</AvatarFallback>
+                    <AvatarImage src="/placeholder.svg" alt={displayName} />
+                    <AvatarFallback className="bg-rammisBlue text-white">
+                      {displayName.charAt(0).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-56" align="end">
                 <div className="flex items-center justify-start gap-2 p-2 bg-black/5">
                   <div className="flex flex-col space-y-1 leading-none">
-                    <p className="font-medium">Admin User</p>
-                    <p className="w-[200px] truncate text-sm text-muted-foreground">admin@rammisbank.com</p>
+                    <p className="font-medium">{displayName}</p>
+                    <p className="w-[200px] truncate text-sm text-muted-foreground">{displayEmail}</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
