@@ -59,7 +59,7 @@ export function AdminHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src="/placeholder.svg" alt={displayName} />
+                    <AvatarImage src="/placehghholder.svg" alt={displayName} />
                     <AvatarFallback className="bg-rammisBlue text-white">
                       {displayName.charAt(0).toUpperCase()}
                     </AvatarFallback>
@@ -67,7 +67,7 @@ export function AdminHeader() {
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuContent className="w-56 bg-RammisBlue" align="end">
                 <div className="flex items-center justify-start gap-2 p-2 bg-black/5">
                   <div className="flex flex-col space-y-1 leading-none">
                     <p className="font-medium">{displayName}</p>
