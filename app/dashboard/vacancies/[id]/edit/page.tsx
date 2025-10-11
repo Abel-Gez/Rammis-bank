@@ -76,7 +76,7 @@ export default function EditVacancyPage() {
   if (loading) return <p className="p-10 text-center">Loading vacancy...</p>;
 
   return (
-    <ProtectedRoute requiredRoles={["HR", "SUPERADMIN"]}>
+    <ProtectedRoute requiredRoles={["HR", "ADMIN"]}>
       <div className="max-w-3xl mx-auto py-10 px-4 space-y-6">
         <h1 className="text-3xl font-bold text-rammisBlue">Edit Vacancy</h1>
         <form

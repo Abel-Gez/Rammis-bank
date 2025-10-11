@@ -44,7 +44,7 @@ export default function VacancyListPage() {
   if (loading) return <p className="p-10 text-center">Loading vacancies...</p>
 
   return (
-    <ProtectedRoute requiredRoles={["HR", "SUPERADMIN"]}>
+    <ProtectedRoute requiredRoles={["HR", "ADMIN"]}>
       <div className="min-h-screen bg-gray-50 py-10">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">

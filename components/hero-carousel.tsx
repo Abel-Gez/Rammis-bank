@@ -9,7 +9,6 @@ const slides = [
   {
     id: 1,
     image: "/rammis-homepage.png",
-    // image: "/modern-islamic-banking-office-with-ethiopian-profe.jpg",
     headline: "Banking with Integrity",
     subheadline: "Secure, interest-free financial services that align with your Islamic values",
     ctaPrimary: { text: "Open Account Today", href: "/customer-registration" },
@@ -83,7 +82,7 @@ export function HeroCarousel() {
   }
 
   return (
-    <section className="relative bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-slate-60 to-blue-60 overflow-hidden">
       <div className="relative h-[600px] lg:h-[700px]">
         {/* Slides */}
         {slides.map((slide, index) => (

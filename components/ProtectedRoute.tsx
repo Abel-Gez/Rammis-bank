@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { setAccessToken, clearAccessToken } from "@/lib/auth";
 import { apiFetch } from "@/lib/api";
+import { useUser } from "@/context/UserContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,10 +14,27 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps) {
   const router = useRouter();
+  const { user, loading: userLoading } = useUser();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
+    if (userLoading) return;
+
+    if (!user) {
+      clearAccessToken();
+      setAuthorized(false);
+      setLoading(false);
+      toast({
+        title: "Session required",
+        description: "Please sign in to continue.",
+        variant: "destructive",
+      });
+      router.replace("/login");
+      return;
+    }
+
     async function checkAuth() {
       try {
         // Fetch user info (apiFetch handles refresh automatically)
@@ -62,9 +81,20 @@ export default function ProtectedRoute({ children, requiredRoles }: ProtectedRou
 
         // No match -> unauthorized
         console.debug("ProtectedRoute: user role not permitted:", { userRole, requiredRoles });
-        router.replace("/unauthorized");
+        toast({
+          title: "Restricted area",
+          description: "Sign in with an authorized account to continue.",
+          variant: "destructive",
+        });
+        clearAccessToken();
+        router.replace("/login");
       } catch (err) {
         console.debug("ProtectedRoute: auth check failed:", err);
+        toast({
+          title: "Session expired",
+          description: "Please sign in again.",
+          variant: "destructive",
+        });
         // Clear access token and redirect to login
         clearAccessToken();
         router.replace("/login");
@@ -75,7 +105,7 @@ export default function ProtectedRoute({ children, requiredRoles }: ProtectedRou
 
     checkAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, JSON.stringify(requiredRoles)]); // stringify so array changes trigger effect
+  }, [router, JSON.stringify(requiredRoles), user, userLoading]); // stringify so array changes trigger effect
 
   if (loading) return <p>Loading...</p>;
   if (!authorized) return null;

@@ -50,6 +50,25 @@ async function refreshAccessToken(): Promise<string> {
  */
 export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   let access = inMemoryAccessToken;
+  const isFormDataBody = typeof FormData !== "undefined" && options.body instanceof FormData;
+
+  const buildHeaders = (token: string | null) => {
+    const headers = new Headers(options.headers as HeadersInit | undefined);
+
+    if (isFormDataBody) {
+      if (headers.has("Content-Type")) {
+        headers.delete("Content-Type");
+      }
+    } else if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    return headers;
+  };
 
   // If no token, try to refresh
   if (!access) {
@@ -60,15 +79,9 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
     }
   }
 
-  const headers = {
-    "Content-Type": "application/json",
-    ...(options.headers || {}),
-    Authorization: `Bearer ${access}`,
-  };
-
   let res = await fetch(`${API_URL}${endpoint}`, {
     ...options,
-    headers,
+    headers: buildHeaders(access),
     credentials: "include", // include refresh cookies for safety
   });
 
@@ -76,14 +89,9 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   if (res.status === 401) {
     try {
       access = await refreshAccessToken();
-      const retryHeaders = {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-        Authorization: `Bearer ${access}`,
-      };
       res = await fetch(`${API_URL}${endpoint}`, {
         ...options,
-        headers: retryHeaders,
+        headers: buildHeaders(access),
         credentials: "include",
       });
     } catch {

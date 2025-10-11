@@ -49,7 +49,7 @@ export default function CreateVacancyPage() {
   };
 
   return (
-    <ProtectedRoute requiredRoles={["HR", "SUPERADMIN"]}>
+    <ProtectedRoute requiredRoles={["HR", "ADMIN"]}>
       <div className="bg-white shadow rounded-lg p-8 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-rammisBlue mb-6">Create New Vacancy</h1>
 

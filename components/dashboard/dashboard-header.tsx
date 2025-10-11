@@ -13,12 +13,32 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Bell, Settings, LogOut, User, Home } from "lucide-react"
 import { useUser } from "@/context/UserContext"
+import { logout } from "@/lib/auth"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 
 export function DashboardHeader() {
-  const { user, loading } = useUser()
+  const { user, loading, refreshUser } = useUser()
+  const router = useRouter()
+  const { toast } = useToast()
 
   const displayName = user?.username || "Loading..."
   const displayEmail = user?.email || "Loading..."
+
+  const handleSignOut = async () => {
+    try {
+      await logout()
+      await refreshUser()
+      toast({ title: "Signed out" })
+      router.push("/login")
+    } catch (error: any) {
+      toast({
+        title: "Sign out failed",
+        description: error?.message || "Please try again.",
+        variant: "destructive",
+      })
+    }
+  }
 
   return (
     <header className="bg-white shadow-sm border-b border-border">
@@ -56,17 +76,20 @@ export function DashboardHeader() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
+                {/* <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src="/placeholder.svg" alt={displayName} />
                     <AvatarFallback className="bg-rammisBlue text-white">
                       {displayName.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                </Button>
+                </Button> */}
+                <button>
+                  <Avatar className="h-10 w-10 bg-rammisBlue text-white"> {displayName.charAt(0).toUpperCase()}</Avatar>
+                </button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuContent className="w-56 bg-white" align="end">
                 <div className="flex items-center justify-start gap-2 p-2 bg-black/5">
                   <div className="flex flex-col space-y-1 leading-none">
                     <p className="font-medium">{displayName}</p>
@@ -89,7 +112,13 @@ export function DashboardHeader() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuItem
+                  className="text-red-600"
+                  onSelect={(event) => {
+                    event.preventDefault()
+                    handleSignOut()
+                  }}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>

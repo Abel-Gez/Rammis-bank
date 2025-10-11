@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
-import { login } from "@/lib/auth"
+import { login, logout } from "@/lib/auth"
 import { apiFetch } from "@/lib/api"
 
 export function LoginForm() {
@@ -36,13 +36,26 @@ export function LoginForm() {
 
       const user = await res.json()
 
+      const normalizedRole = (user?.role ?? "").toString().trim().toLowerCase()
+      const allowedRoles = ["admin", "staff", "superadmin", "hr", "marketing"]
+
+      if (!allowedRoles.includes(normalizedRole)) {
+        await logout()
+        toast({
+          title: "Access denied",
+          description: "Your account is not authorized to access the dashboard.",
+          variant: "destructive",
+        })
+        return
+      }
+
       toast({
         title: "Login Successful",
         description: `Welcome back, ${user.username || formData.username}!`,
       })
 
       // 3️⃣ Navigate after success
-      router.push("/admin")
+      router.push("/dashboard")
     } catch (error: any) {
       console.error("Login Error:", error)
 

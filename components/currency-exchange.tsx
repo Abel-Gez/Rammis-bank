@@ -21,7 +21,8 @@ interface RatesData {
 
 export function CurrencyExchange() {
   const [rates, setRates] = useState<RatesData | null>(null)
-  const [lastUpdated, setLastUpdated] = useState(new Date())
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+  const [isClient, setIsClient] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const fetchRates = async () => {
@@ -49,6 +50,7 @@ export function CurrencyExchange() {
   }
 
   useEffect(() => {
+    setIsClient(true)
     fetchRates()
 
     // Auto-refresh every 30 seconds
@@ -115,10 +117,12 @@ export function CurrencyExchange() {
         </div>
 
         <div className="text-center space-y-4">
-          <div className="flex items-center justify-center text-sm text-gray-500 mb-4">
-            <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
-            Last updated: {lastUpdated.toLocaleTimeString()}
-          </div>
+          {isClient && lastUpdated ? (
+            <div className="flex items-center justify-center text-sm text-gray-500 mb-4">
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+              Last updated: {lastUpdated.toLocaleTimeString()}
+            </div>
+          ) : null}
 
           <div className="space-y-2">
             <Button asChild className="bg-rammisLightBlue hover:bg-rammisBlue">

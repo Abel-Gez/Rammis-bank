@@ -8,7 +8,7 @@ import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar"
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <UserProvider>
-      <ProtectedRoute requiredRoles={["admin", "staff", "SUPERADMIN", "HR", "MARKETING"]}>
+      <ProtectedRoute requiredRoles={["ADMIN", "staff", "SUPERADMIN", "HR", "MARKETING"]}>
         <div className="min-h-screen bg-gray-50">
           <DashboardHeader />
           <div className="flex">

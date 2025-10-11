@@ -22,6 +22,7 @@ export function LiveRatesDisplay() {
   const [rates, setRates] = useState<RatesData | null>(null)
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+  const [isClient, setIsClient] = useState(false)
 
   const fetchRates = async () => {
     try {
@@ -41,6 +42,7 @@ export function LiveRatesDisplay() {
   }
 
   useEffect(() => {
+    setIsClient(true)
     fetchRates()
 
     // Auto-refresh every 30 seconds
@@ -62,12 +64,12 @@ export function LiveRatesDisplay() {
           <p className="text-gray-600 mt-2">Real-time rates for Ethiopian Birr (ETB)</p>
         </div>
         <div className="flex items-center space-x-4">
-          {lastUpdated && (
+          {isClient && lastUpdated ? (
             <div className="flex items-center text-sm text-gray-500">
               <Clock className="w-4 h-4 mr-2" />
               Last updated: {lastUpdated.toLocaleTimeString()}
             </div>
-          )}
+          ) : null}
           <Button variant="outline" size="sm" onClick={fetchRates} disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
             Refresh

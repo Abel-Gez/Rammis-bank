@@ -1,21 +1,27 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Upload, X, FileText, Loader2, CheckCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { ToastProvider, ToastViewport } from "@/components/ui/toast"
 
+
+
+// -------------------- TYPES --------------------
 interface FormData {
-  // Personal Information
   firstName: string
   middleName: string
   lastName: string
@@ -24,35 +30,39 @@ interface FormData {
   nationality: string
   idNumber: string
   phoneNumber: string
-
-  // Address Information
-  
-
-  // Employment Information
   monthlyIncome: string
-
-  // Account Information
   accountType: string
-  branchPreference: string
-
-
-  // Agreements
+  branchPreference: string // Branch ID from backend
+  faydaNumber: string
   agreeToTerms: boolean
   agreeToMarketing: boolean
 }
 
 interface UploadedFile {
   id: string
+  file: File
   name: string
   type: string
   size: number
   status: "uploading" | "completed" | "error"
 }
 
+interface FormErrors {
+  [key: string]: string
+}
+
+interface Branch {
+  id: number
+  name: string
+}
+
+// -------------------- COMPONENT --------------------
 export function CustomerRegistrationForm() {
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
+  const [formErrors, setFormErrors] = useState<FormErrors>({})
+  const [branches, setBranches] = useState<Branch[]>([])
   const { toast } = useToast()
 
   const [formData, setFormData] = useState<FormData>({
@@ -67,19 +77,36 @@ export function CustomerRegistrationForm() {
     monthlyIncome: "",
     accountType: "",
     branchPreference: "",
+    faydaNumber: "",
     agreeToTerms: false,
     agreeToMarketing: false,
   })
 
   const steps = [
-    { id: 1, title: "Personal Information", description: "Basic personal details" },
-    { id: 2, title: "Contact & Account Information", description: "Contact and Account information" },
-    { id: 3, title: "Upload Documents", description: "Required documents" },
-    { id: 4, title: "Review & Submit", description: "Final review" },
+    { id: 1, title: "Personal Information" },
+    { id: 2, title: "Contact & Account Information" },
+    { id: 3, title: "Upload Documents" },
+    { id: 4, title: "Review & Submit" },
   ]
 
+  // -------------------- LOAD BRANCH LIST --------------------
+  useEffect(() => {
+    async function loadBranches() {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/api/v1/branches/")
+        const data = await res.json()
+        setBranches(data)
+      } catch (error) {
+        console.error("Failed to load branches:", error)
+      }
+    }
+    loadBranches()
+  }, [])
+
+  // -------------------- FORM HANDLERS --------------------
   const handleInputChange = (field: keyof FormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormErrors((prev) => ({ ...prev, [field]: "" }))
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,21 +114,24 @@ export function CustomerRegistrationForm() {
     if (!files) return
 
     Array.from(files).forEach((file) => {
-      const fileId = Math.random().toString(36).substr(2, 9)
+      const fileId = Math.random().toString(36).substring(2, 9)
       const newFile: UploadedFile = {
         id: fileId,
+        file,
         name: file.name,
         type: file.type,
         size: file.size,
         status: "uploading",
       }
-
       setUploadedFiles((prev) => [...prev, newFile])
 
-      // Simulate file upload
       setTimeout(() => {
-        setUploadedFiles((prev) => prev.map((f) => (f.id === fileId ? { ...f, status: "completed" } : f)))
-      }, 2000)
+        setUploadedFiles((prev) =>
+          prev.map((f) =>
+            f.id === fileId ? { ...f, status: "completed" } : f
+          )
+        )
+      }, 1200)
     })
   }
 
@@ -109,224 +139,443 @@ export function CustomerRegistrationForm() {
     setUploadedFiles((prev) => prev.filter((f) => f.id !== fileId))
   }
 
-  const nextStep = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1)
+  // -------------------- VALIDATION --------------------
+  const validateStep = (): boolean => {
+    const errors: FormErrors = {}
+    let valid = true
+
+    switch (currentStep) {
+      case 1:
+        if (!formData.firstName) {
+          errors.firstName = "First name is required"
+          valid = false
+        }
+        if (!formData.lastName) {
+          errors.lastName = "Last name is required"
+          valid = false
+        }
+        if (!formData.mothersName) {
+          errors.mothersName = "Mother's name is required"
+          valid = false
+        }
+        if (!formData.gender) {
+          errors.gender = "Gender is required"
+          valid = false
+        }
+        if (!formData.nationality) {
+          errors.nationality = "Nationality is required"
+          valid = false
+        }
+        if (!formData.faydaNumber) {
+          errors.faydaNumber = "Fayda number is required"
+          valid = false
+        }
+        break
+
+      case 2:
+        if (!formData.phoneNumber) {
+          errors.phoneNumber = "Phone number is required"
+          valid = false
+        }
+        if (!formData.monthlyIncome) {
+          errors.monthlyIncome = "Monthly income is required"
+          valid = false
+        }
+        if (!formData.accountType) {
+          errors.accountType = "Account type is required"
+          valid = false
+        }
+        if (!formData.branchPreference) {
+          errors.branchPreference = "Please select a branch"
+          valid = false
+        }
+        break
+
+      case 3:
+        if (
+          uploadedFiles.length === 0 ||
+          uploadedFiles.every((f) => f.status !== "completed")
+        ) {
+          toast({
+            title: "Missing ID Document",
+            description:
+              "Please upload your ID document (National ID, Kebele, or Passport).",
+          })
+          valid = false
+        }
+        break
+
+      case 4:
+        if (!formData.agreeToTerms) {
+          toast({
+            title: "Terms Agreement Required",
+            description: "You must agree to the Terms and Conditions.",
+          })
+          valid = false
+        }
+        break
     }
+
+    setFormErrors(errors)
+    return valid
+  }
+
+  const nextStep = () => {
+    if (validateStep()) setCurrentStep((s) => s + 1)
   }
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
-    }
+    if (currentStep > 1) setCurrentStep((s) => s - 1)
   }
 
+  // -------------------- SUBMIT --------------------
   const handleSubmit = async () => {
-    setIsSubmitting(true)
+  if (!validateStep()) return
 
-    // Simulate API submission
-    setTimeout(() => {
-      setIsSubmitting(false)
+  setIsSubmitting(true)
+  try {
+    const data = new FormData()
+
+    const fullName = `${formData.firstName} ${
+      formData.middleName ? formData.middleName + " " : ""
+    }${formData.lastName}`.trim()
+
+    data.append("full_name", fullName)
+    data.append("mother_name", formData.mothersName)
+    data.append("phone", formData.phoneNumber)
+    data.append("gender", formData.gender)
+    data.append("nationality", formData.nationality)
+    data.append("fayda_number", formData.faydaNumber)
+    data.append("monthly_income", formData.monthlyIncome)
+    data.append("account_type", formData.accountType)
+    data.append("branch_id", formData.branchPreference)
+    data.append("agree_to_terms", String(formData.agreeToTerms))
+    data.append("agree_to_marketing", String(formData.agreeToMarketing))
+
+    const firstCompleted = uploadedFiles.find((f) => f.status === "completed")
+    if (firstCompleted) {
+      data.append("national_id_file", firstCompleted.file, firstCompleted.name)
+    }
+
+    const res = await fetch("http://127.0.0.1:8000/api/v1/accounts/", {
+      method: "POST",
+      body: data,
+    })
+
+    if (!res.ok) {
+      const json = await res.json().catch(() => ({}))
+      console.error("Backend Error:", json)
       toast({
-        title: "Application Submitted Successfully!",
-        description: "We'll review your application and contact you within 24-48 hours.",
+        title: "❌ Submission Failed",
+        description:
+          json.detail || "Please review your form. Some fields may be invalid.",
+        variant: "destructive",
+        duration: 5000,
       })
-      // Redirect to success page or dashboard
-    }, 3000)
-  }
+      setFormErrors(json)
+      return
+    }
 
+    // -------------------- GREAT SUCCESS TOAST --------------------
+    toast({
+      title: "🎉 Application Submitted!",
+      description: "Your application has been successfully submitted.",
+      variant: "default",
+      duration: 4000,
+    })
+
+    setFormErrors({})
+
+    // -------------------- RESET FORM --------------------
+    setFormData({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      mothersName: "",
+      gender: "",
+      nationality: "Ethiopian",
+      idNumber: "",
+      phoneNumber: "",
+      monthlyIncome: "",
+      accountType: "",
+      branchPreference: "",
+      faydaNumber: "",
+      agreeToTerms: false,
+      agreeToMarketing: false,
+    })
+    setUploadedFiles([])
+    setCurrentStep(1)
+  } catch (error) {
+    console.error("Submission error:", error)
+    toast({
+      title: "🌐 Network Error",
+      description: "Unable to submit. Please try again later.",
+      variant: "destructive",
+      duration: 8000,
+    })
+  } finally {
+    setIsSubmitting(false)
+  }
+}
+
+
+  // -------------------- UI HELPERS --------------------
+  const SelectTriggerClass =
+    "bg-white text-black border border-gray-300 rounded-md shadow-sm hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-100"
+
+  const SelectContentClass =
+    "bg-white text-black shadow-lg border border-gray-200 rounded-md z-50"
+
+  // -------------------- STEP RENDER --------------------
   const renderStepContent = () => {
     switch (currentStep) {
+      // Step 1 - Personal
       case 1:
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input className="bg-white"
-                  id="firstName"
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label>First Name *</Label>
+                <Input
                   value={formData.firstName}
-                  onChange={(e) => handleInputChange("firstName", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    handleInputChange("firstName", e.target.value)
+                  }
+                />
+                {formErrors.firstName && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.firstName}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <Label>Middle Name</Label>
+                <Input
+                  value={formData.middleName}
+                  onChange={(e) =>
+                    handleInputChange("middleName", e.target.value)
+                  }
                 />
               </div>
-              <div className="space-y-2">
-              <Label htmlFor="middleName">Middle Name</Label>
-              <Input className="bg-white"
-                id="middleName"
-                value={formData.middleName}
-                onChange={(e) => handleInputChange("middleName", e.target.value)}
-              />
-            </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input className="bg-white"
-                  id="lastName"
+
+              <div>
+                <Label>Last Name *</Label>
+                <Input
                   value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
+                  onChange={(e) =>
+                    handleInputChange("lastName", e.target.value)
+                  }
                 />
+                {formErrors.lastName && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.lastName}
+                  </p>
+                )}
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="mothersName">Mother's Name</Label>
-              <Input className="bg-white"
-                id="mothersName"
-                value={formData.mothersName}
-                onChange={(e) => handleInputChange("mothersName", e.target.value)}
-              />
+
+              <div>
+                <Label>Mother's Name *</Label>
+                <Input
+                  value={formData.mothersName}
+                  onChange={(e) =>
+                    handleInputChange("mothersName", e.target.value)
+                  }
+                />
+                {formErrors.mothersName && (
+                  <p className="text-red-500 text-sm">
+                    {formErrors.mothersName}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="gender">Gender *</Label>
-                <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
-                  <SelectTrigger className="bg-white">
-                    <SelectValue className="bg-white" placeholder="Select gender" />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label>Gender *</Label>
+                <Select
+                  value={formData.gender}
+                  onValueChange={(v) => handleInputChange("gender", v)}
+                >
+                  <SelectTrigger className={SelectTriggerClass}>
+                    <SelectValue placeholder="Select gender" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white shadow-lg">
+                  <SelectContent className={SelectContentClass}>
                     <SelectItem value="male">Male</SelectItem>
                     <SelectItem value="female">Female</SelectItem>
                   </SelectContent>
                 </Select>
+                {formErrors.gender && (
+                  <p className="text-red-500 text-sm">{formErrors.gender}</p>
+                )}
+              </div>
+
+              <div>
+                <Label>Nationality *</Label>
+                <Input
+                  value={formData.nationality}
+                  onChange={(e) =>
+                    handleInputChange("nationality", e.target.value)
+                  }
+                />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="nationality" >Nationality *</Label>
-                <Input className="bg-white"
-                  id="nationality"
-                  value={formData.nationality}
-                  onChange={(e) => handleInputChange("nationality", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="idNumber" >ID Number *</Label>
-                <Input className="bg-white"
-                  id="idNumber"
-                  value={formData.idNumber}
-                  onChange={(e) => handleInputChange("idNumber", e.target.value)}
-                  placeholder="Ethiopian ID or Passport Number"
-                  required
-                />
-              </div>
+            <div>
+              <Label>Fayda Number *</Label>
+              <Input
+                value={formData.faydaNumber}
+                onChange={(e) =>
+                  handleInputChange("faydaNumber", e.target.value)
+                }
+              />
+              {formErrors.faydaNumber && (
+                <p className="text-red-500 text-sm">
+                  {formErrors.faydaNumber}
+                </p>
+              )}
             </div>
           </div>
         )
 
+      // Step 2 - Contact & Account
       case 2:
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number *</Label>
-                <Input className="bg-white"
-                  id="phoneNumber"
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label>Phone Number *</Label>
+                <Input
                   type="tel"
-                  value={formData.phoneNumber}
-                  onChange={(e) => handleInputChange("phoneNumber", e.target.value)}
                   placeholder="+251 9XX XXX XXX"
-                  required
+                  value={formData.phoneNumber}
+                  onChange={(e) =>
+                    handleInputChange("phoneNumber", e.target.value)
+                  }
+                />
+              </div>
+
+              <div>
+                <Label>Monthly Income (ETB) *</Label>
+                <Input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={formData.monthlyIncome}
+                  onChange={(e) =>
+                    handleInputChange("monthlyIncome", e.target.value)
+                  }
                 />
               </div>
             </div>
-              <div className="space-y-2">
-                  <Label htmlFor="monthlyIncome">Monthly Income (ETB)</Label>
-                  <Select
-                    value={formData.monthlyIncome}
-                    onValueChange={(value) => handleInputChange("monthlyIncome", value)}
-                  >
-                    <SelectTrigger className="bg-white">
-                      <SelectValue placeholder="Select income range" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectContent className="bg-white shadow-lg">
-                        <SelectItem value="below-5000">Below 5,000 ETB</SelectItem>
-                        <SelectItem value="5000-15000">5,000 - 15,000 ETB</SelectItem>
-                        <SelectItem value="15000-30000">15,000 - 30,000 ETB</SelectItem>
-                        <SelectItem value="30000-50000">30,000 - 50,000 ETB</SelectItem>
-                      </SelectContent>
-                      <SelectItem value="above-50000">Above 50,000 ETB</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-            <div className="space-y-2">
-              <Label htmlFor="accountType">Account Type *</Label>
-              <Select value={formData.accountType} onValueChange={(value) => handleInputChange("accountType", value)}>
-                <SelectTrigger className="bg-white">
-                  <SelectValue placeholder="Select account type" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectItem value="current">Current Account</SelectItem>
-                  <SelectItem value="savings">Savings Account</SelectItem>
-                  <SelectItem value="business">Business Account</SelectItem>
-                  <SelectItem value="investment">Investment Account</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="branchPreference">Preferred Branch</Label>
-              <Select
-                value={formData.branchPreference}
-                onValueChange={(value) => handleInputChange("branchPreference", value)}
-              >
-                <SelectTrigger className="bg-white">
-                  <SelectValue placeholder="Select preferred branch" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectItem value="bole">Bole Branch</SelectItem>
-                  <SelectItem value="piazza">Piazza Branch</SelectItem>
-                  <SelectItem value="merkato">Merkato Branch</SelectItem>
-                  <SelectItem value="kazanchis">Kazanchis Branch</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <Label>Account Type *</Label>
+                <Select
+                  value={formData.accountType}
+                  onValueChange={(v) => handleInputChange("accountType", v)}
+                >
+                  <SelectTrigger className={SelectTriggerClass}>
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent className={SelectContentClass}>
+                    <SelectItem value="wadia">Wadia Account</SelectItem>
+                    <SelectItem value="mudarabah">
+                      Mudarabah Account
+                    </SelectItem>
+                    <SelectItem value="qard">Qard</SelectItem>
+                    <SelectItem value="haji_saving">
+                      Haji Saving Account
+                    </SelectItem>
+                    <SelectItem value="foreign_currency">
+                      Foreign Currency Account
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Preferred Branch *</Label>
+                <Select
+                  value={formData.branchPreference}
+                  onValueChange={(v) => handleInputChange("branchPreference", v)}
+                >
+                  <SelectTrigger className={SelectTriggerClass}>
+                    <SelectValue placeholder="Select branch" />
+                  </SelectTrigger>
+                  <SelectContent className={SelectContentClass}>
+                    {branches.length > 0 ? (
+                      branches.map((b) => (
+                        <SelectItem key={b.id} value={String(b.id)}>
+                          {b.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="none" disabled>
+                        Loading...
+                      </SelectItem>
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            
           </div>
         )
 
+      // Step 3 - Upload
       case 3:
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Upload Required Documents</h3>
-              <p className="text-gray-600 mb-6">Please upload clear, readable copies of the required documents</p>
+              <h3 className="text-lg font-semibold mb-2">
+                Upload Your ID Document
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Please upload a clear scan/photo of your{" "}
+                <strong>National ID, Kebele ID, or Passport</strong>.
+              </p>
             </div>
 
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-              <Upload className="bg-white w-12 h-12 text-gray-700 mx-auto mb-4" />
-              <div className="space-y-2 ">
-                <p className="text-lg font-medium">Drop files here or click to browse</p>
-                <p className="text-sm text-gray-500">Supported formats: PDF, JPG, PNG (Max 5MB each)</p>
-              </div>
-              <input 
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center relative bg-white">
+              <Upload className="w-12 h-12 text-gray-700 mx-auto mb-4" />
+              <p className="text-lg font-medium">
+                Drop files here or click to browse
+              </p>
+              <p className="text-sm text-gray-500">
+                Supported: PDF, JPG, PNG. Max 5MB.
+              </p>
+              <input
                 type="file"
-                multiple
                 accept=".pdf,.jpg,.jpeg,.png"
+                multiple
                 onChange={handleFileUpload}
-                className="bg-white absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
             </div>
 
             {uploadedFiles.length > 0 && (
               <div className="space-y-3">
-                <h4 className="font-medium">Uploaded Files</h4>
                 {uploadedFiles.map((file) => (
-                  <div key={file.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <FileText className="w-5 h-5 text-gray-500" />
+                  <div
+                    key={file.id}
+                    className="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+                  >
+                    <div className="flex items-center gap-3">
+                      <FileText className="text-gray-500 w-5 h-5" />
                       <div>
-                        <p className="font-medium text-sm">{file.name}</p>
-                        <p className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        <p className="text-sm font-medium">{file.name}</p>
+                        <p className="text-xs text-gray-400">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      {file.status === "uploading" && <Loader2 className="w-4 h-4 animate-spin text-blue-500" />}
-                      {file.status === "completed" && <CheckCircle className="w-4 h-4 text-rammisLightBlue" />}
-                      {file.status === "error" && <Badge variant="destructive">Error</Badge>}
+                    <div className="flex items-center gap-2">
+                                            {file.status === "uploading" && (
+                        <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
+                      )}
+                      {file.status === "completed" && (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      )}
                       <Button
                         variant="ghost"
                         size="sm"
@@ -343,81 +592,80 @@ export function CustomerRegistrationForm() {
           </div>
         )
 
+      // Step 4 - Review & Submit
       case 4:
         return (
-          <div className="space-y-6">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Review Your Application</h3>
-              <p className="text-gray-600 mb-6">Please review all information before submitting</p>
-            </div>
-
-            <div className="grid gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Personal Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <p>
-                    <strong>Name:</strong> {formData.firstName} {formData.middleName} {formData.lastName}
-                  </p>
-                  <p>
+          <div className="space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle>Review Your Information</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>Full Name:</strong>{" "}
+                    {`${formData.firstName} ${formData.middleName} ${formData.lastName}`}
+                  </div>
+                  <div>
+                    <strong>Mother’s Name:</strong> {formData.mothersName}
+                  </div>
+                  <div>
                     <strong>Gender:</strong> {formData.gender}
-                  </p>
-                  <p>
-                    <strong>ID Number:</strong> {formData.idNumber}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Contact Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <p>
+                  </div>
+                  <div>
+                    <strong>Nationality:</strong> {formData.nationality}
+                  </div>
+                  <div>
                     <strong>Phone:</strong> {formData.phoneNumber}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">Account Details</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <p>
+                  </div>
+                  <div>
+                    <strong>Fayda Number:</strong> {formData.faydaNumber}
+                  </div>
+                  <div>
+                    <strong>Monthly Income:</strong> {formData.monthlyIncome} ETB
+                  </div>
+                  <div>
                     <strong>Account Type:</strong> {formData.accountType}
-                  </p>
-                  <p>
-                    <strong>Preferred Branch:</strong> {formData.branchPreference}
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+                  </div>
+                  <div>
+                    <strong>Branch Preference:</strong>{" "}
+                    {
+                      branches.find(
+                        (b) => String(b.id) === formData.branchPreference
+                      )?.name
+                    }
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-            <div className="space-y-4">
-              <div className="flex items-start space-x-2">
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id="agreeToTerms"
+                  id="terms"
                   checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) => handleInputChange("agreeToTerms", checked as boolean)}
-                  className="mt-1"
+                  onCheckedChange={(v) =>
+                    handleInputChange("agreeToTerms", Boolean(v))
+                  }
                 />
-                <Label htmlFor="agreeToTerms" className="text-sm leading-relaxed">
-                  I agree to the Terms and Conditions, Privacy Policy, and confirm that all information provided is
-                  accurate and complete.
+                <Label htmlFor="terms" className="text-sm">
+                  I agree to the{" "}
+                  <a href="#" className="text-blue-600 underline">
+                    Terms and Conditions
+                  </a>
                 </Label>
               </div>
 
-              <div className="flex items-start space-x-2">
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id="agreeToMarketing"
+                  id="marketing"
                   checked={formData.agreeToMarketing}
-                  onCheckedChange={(checked) => handleInputChange("agreeToMarketing", checked as boolean)}
-                  className="mt-1"
+                  onCheckedChange={(v) =>
+                    handleInputChange("agreeToMarketing", Boolean(v))
+                  }
                 />
-                <Label htmlFor="agreeToMarketing" className="text-sm leading-relaxed">
-                  I agree to receive marketing communications about Rammis Bank products and services.
+                <Label htmlFor="marketing" className="text-sm">
+                  I want to receive updates and marketing information.
                 </Label>
               </div>
             </div>
@@ -429,55 +677,62 @@ export function CustomerRegistrationForm() {
     }
   }
 
+  // -------------------- MAIN RETURN --------------------
   return (
-    <div className="space-y-8">
-      {/* Progress Steps */}
-      <div className="flex items-center justify-between">
-        {steps.map((step, index) => (
-          <div key={step.id} className="flex items-center">
+    <div className="max-w-4xl mx-auto py-10 px-6">
+      {/* Progress Header */}
+      <div className="flex justify-between mb-8">
+        {steps.map((step) => (
+          <div
+            key={step.id}
+            className={`flex-1 text-center ${
+              currentStep >= step.id
+                ? "text-blue-600 font-semibold"
+                : "text-gray-400"
+            }`}
+          >
             <div
-              className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-                currentStep >= step.id ? "bg-rammisBlue text-white" : "bg-gray-200 text-gray-600"
+              className={`w-8 h-8 mx-auto mb-2 rounded-full flex items-center justify-center ${
+                currentStep >= step.id
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-600"
               }`}
             >
-              {currentStep > step.id ? <CheckCircle className="w-4 h-4" /> : step.id}
+              {step.id}
             </div>
-            {index < steps.length - 1 && (
-              <div className={`w-12 h-0.5 mx-2 ${currentStep > step.id ? "bg-rammisBlue" : "bg-gray-200"}`} />
-            )}
+            <div className="text-xs md:text-sm">{step.title}</div>
           </div>
         ))}
       </div>
 
-      {/* Step Title */}
-      <div className="text-center">
-        <h2 className="text-xl font-semibold text-gray-900">{steps[currentStep - 1].title}</h2>
-        <p className="text-gray-600">{steps[currentStep - 1].description}</p>
-      </div>
-
-      {/* Step Content */}
-      <div className="min-h-[400px]">{renderStepContent()}</div>
+      <Card className="shadow-md border border-gray-200">
+        <CardHeader>
+          <CardTitle>{steps[currentStep - 1].title}</CardTitle>
+        </CardHeader>
+        <CardContent>{renderStepContent()}</CardContent>
+      </Card>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between pt-6 border-t border-border">
-        <Button variant="outline" onClick={prevStep} disabled={currentStep === 1}>
-          Previous
-        </Button>
+      <div className="flex justify-between mt-8">
+        {currentStep > 1 ? (
+          <Button variant="outline" onClick={prevStep}>
+            Back
+          </Button>
+        ) : (
+          <div />
+        )}
 
         {currentStep < steps.length ? (
-          <Button onClick={nextStep} className="bg-rammisBlue hover:bg-rammisLightBlue">
-            Next Step
-          </Button>
+          <Button onClick={nextStep}>Next</Button>
         ) : (
           <Button
             onClick={handleSubmit}
-            disabled={!formData.agreeToTerms || isSubmitting}
-            className="bg-rammisBlue hover:bg-rammisLightBlue"
+            disabled={isSubmitting}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Submitting...
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting...
               </>
             ) : (
               "Submit Application"
@@ -488,3 +743,6 @@ export function CustomerRegistrationForm() {
     </div>
   )
 }
+
+export default CustomerRegistrationForm
+

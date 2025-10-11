@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { CustomerRegistrationForm } from "@/components/customer-registration/customer-registration-form"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
@@ -23,18 +24,21 @@ export default function CustomerRegistrationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rammisLightBlue/30 to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-10">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-rammisLightBlue rounded-lg flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-rammisBlue">Rammis Bank</span>
-                <span className="text-xs text-rammisLightBlue">Customer Registration</span>
+            <Link href="/" className="flex items-center gap-3">
+              <div className="bg-white relative w-42 h-14 flex items-center justify-center rounded-xl">
+                <Image
+                  src="/logo.png"
+                  alt="Rammis Bank logo"
+                  width={180}
+                  height={70}
+                  className="object-contain"
+                  priority
+                />
               </div>
             </Link>
             <Link href="/" className="text-rammisLightBlue hover:text-rammisBlue font-medium">
@@ -84,9 +88,7 @@ export default function CustomerRegistrationPage() {
               <CardContent>
                 <ul className="space-y-2 text-sm text-black">
                   <li>• Valid Ethiopian ID or Passport</li>
-                  <li>• Proof of Address (Utility Bill)</li>
                   <li>• Recent Passport Photo</li>
-                  <li>• Employment Letter (if applicable)</li>
                   <li>• Business License (for business accounts)</li>
                 </ul>
               </CardContent>

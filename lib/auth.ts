@@ -1,3 +1,5 @@
+import { setAccessToken as setApiAccessToken, clearAccessToken as clearApiAccessToken } from "./api";
+
 // lib/auth.ts
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
@@ -6,6 +8,7 @@ let ACCESS_TOKEN: string | null = null;
 /** Set in-memory access token (short-lived) */
 export function setAccessToken(token: string | null) {
   ACCESS_TOKEN = token;
+  setApiAccessToken(token);
 }
 
 /** Read in-memory access token */
@@ -16,6 +19,7 @@ export function getAccessToken(): string | null {
 /** Clear token (on logout) */
 export function clearAccessToken() {
   ACCESS_TOKEN = null;
+  clearApiAccessToken();
 }
 
 /** Helper to build auth header if access token exists */
@@ -144,23 +148,11 @@ export async function logout(): Promise<void> {
 
 /** Fetch current user profile using access token (and cookies) */
 export async function fetchProfile(): Promise<any> {
-  const res = await fetch(`${API_BASE}/api/auth/me/`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {}),
-    },
-  });
-
-  if (!res.ok) {
-    let errText = "Failed to fetch profile";
-    try {
-      const j = await res.json();
-      errText = j.detail || JSON.stringify(j);
-    } catch { }
-    throw new Error(errText);
+  try {
+    const profile = await verifySession();
+    return profile;
+  } catch (error) {
+    clearAccessToken();
+    throw error;
   }
-
-  return res.json();
 }

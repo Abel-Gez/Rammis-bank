@@ -23,40 +23,11 @@ export function Services() {
       description: "Our Retail Banking provides Sharia-compliant, interest-free financial services designed to support your everyday needs",
       image: "/retail-banking.png",
     },
-    {
-      id: 4,
-      title: "Business Financing",
-      description: "Murabaha and Musharaka financing solutions for your business growth",
-      image: "/business-financing.jpg",
-    },
-    {
-      id: 5,
-      title: "Personal Banking",
-      description: "Everyday banking services that align with Islamic principles",
-      image: "/personal-banking.jpg",
-    },
-    {
-      id: 6,
-      title: "Investment Services",
-      description: "Halal investment opportunities in ethical business ventures",
-      image: "/investment-services.jpg",
-    },
-    {
-      id: 7,
-      title: "Zakat Calculator",
-      description: "Calculate your Zakat obligations with our compliant calculator",
-      image: "/zakat-calculator.jpg",
-    },
-    {
-      id: 8,
-      title: "Currency Exchange",
-      description: "Competitive rates for ETB, USD, EUR, and GBP exchanges",
-      image: "/currency-exchange.jpg",
-    },
+    
   ]
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center space-y-4 mb-16">
